@@ -29,6 +29,7 @@ Target user: the author (level designer) and the players they share the game wit
 | Couple type in validation | Counts: `married` ≠ `divorced` ≠ `partners` |
 | Level order | Sequential unlock; tutorial is separate and optional |
 | Persistence | `localStorage`, no account |
+| Themes | Five colour themes, CSS variables, cosmetic only |
 
 ## 3. Level format
 
@@ -167,7 +168,8 @@ Undo/redo covers link actions (create / delete / retype a couple, add / remove a
       "couples": [ { "id": "c1", "type": "married", "members": ["marie", "paul"], "children": ["lea"] } ]
     }
   },
-  "hints": { "showProgress": false, "showMistakes": false }
+  "hints": { "showProgress": false, "showMistakes": false },
+  "theme": "detective-board"
 }
 ```
 
@@ -218,13 +220,25 @@ Step shape:
 - `until` events, closed list for phase 1: `next`, `clueOpened:<id>`, `toolSelected:<tool>`, `coupleCreated:<a>:<b>` (order irrelevant), `childLinked:<id>`, `checked`.
 - The board stays fully usable while the tutorial runs; it guides, it does not block. A **Back to menu** button is always available.
 
-## 9. Screens and navigation
+## 9. Themes
+
+Five colour themes, selected from the menu and from the status bar, persisted in the save. Implemented as CSS custom properties on `:root[data-theme="…"]`; no gameplay impact. Couple types are distinguished by the dot label, never by colour alone, so every theme stays readable.
+
+| id | Name | Mood | Background | Person cards | Links / accent |
+|---|---|---|---|---|---|
+| `detective-board` (default) | Detective Board | cork board, red string | light brown cork | cream index cards, paper shadow | red string, pins |
+| `old-archive` | Old Archive | civil registers, sepia | yellowed paper | ivory cards, brown border | brown ink, burgundy accent |
+| `night-office` | Night Office | dark, desk lamp | deep blue-grey | slate, light text | amber |
+| `blueprint` | Blueprint | architect's plan | Prussian blue, fine grid | white outline, transparent fill | white lines, cyan accent |
+| `noir` | Noir | film noir, pure contrast | charcoal | off-white, sharp border | light grey, single blood-red accent |
+
+## 10. Screens and navigation
 
 1. **Menu**: game title, then the level list. Tutorial first, distinct colour, always playable. Then the levels: level 1 unlocked from the start, each next level unlocked when the previous one is completed. Completed levels are ticked and replayable; locked levels are greyed out.
 2. **Game**: clue panel + board + status bar, **Menu** button.
 3. **Victory**: overlay on the game with **Next level** and **Menu**.
 
-## 10. Project structure
+## 11. Project structure
 
 ```
 src/
@@ -242,20 +256,20 @@ public/levels/
   level-1/    level.json + media
 ```
 
-## 11. Testing
+## 12. Testing
 
 Vitest, TDD.
 
 - `scoring`: right pair / wrong type, wrong pair with children, extra couple, missing child, empty board, complete board.
 - `levels`: a valid level passes; each consistency rule rejects its counterexample.
 - `game`: connection rules (self-couple, duplicate pair, double parenthood, remarriage allowed), retyping keeps children, undo/redo of each action, reset clears history.
-- `save`: round-trip, unknown version discarded.
+- `save`: round-trip, unknown version discarded, unknown theme falls back to the default.
 - `tutorial`: steps advance on their `until` event and ignore others.
 - `app`: smoke test with Testing Library, the tutorial level loads and shows its names and clue titles.
 
 No E2E in phase 1.
 
-## 12. Deliverable content
+## 13. Deliverable content
 
 - The tutorial level (three people, two clues).
 - Level 1: about ten people, at least one clue of each kind, in English. The puzzle itself is written together with the author after the engine works.
