@@ -246,6 +246,12 @@ describe('persistence', () => {
 });
 
 describe('tutorial and clues', () => {
+  it('tutorialNext advances a "next" step', () => {
+    s().openLevel({ ...level, tutorial: [{ text: 'hi', until: 'next' }] });
+    s().tutorialNext();
+    expect(s().tutorialStep).toBe(1);
+  });
+
   it('advances steps on the matching events only', () => {
     expect(s().tutorialStep).toBe(0);
     s().selectTool('child');

@@ -33,6 +33,7 @@ export interface GameState {
 export interface GameActions {
   openLevel(level: Level): void;
   leaveLevel(): void;
+  tutorialNext(): void;
   selectTool(tool: Tool): void;
   clickPerson(id: string): void;
   clickCouple(id: string): void;
@@ -124,6 +125,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
       });
     },
 
+    tutorialNext() { emit('next'); },
     leaveLevel() {
       set({ screen: 'menu', level: null, history: createHistory(emptyBoard()), pending: null, openClueId: null, victory: false });
     },

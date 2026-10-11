@@ -1,0 +1,4 @@
+.tutorial-bubble { background: var(--surface); color: var(--text); border: 2px solid var(--highlight); border-radius: 8px; padding: 12px 16px; box-shadow: var(--shadow); font-family: var(--font); z-index: 30; }
+.tutorial-bubble p { margin: 0 0 8px; }
+.tutorial-bubble.is-centred { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 420px; }
+.tutorial-highlight { outline: 3px solid var(--highlight); outline-offset: 3px; box-shadow: 0 0 0 6px color-mix(in srgb, var(--highlight) 35%, transparent); position: relative; z-index: 6; }
