@@ -1,0 +1,95 @@
+import { validateLevel, LevelValidationError } from './validate';
+
+const base = () => ({
+  id: 'lvl',
+  title: 'Test',
+  people: [
+    { id: 'a', name: 'A' },
+    { id: 'b', name: 'B' },
+    { id: 'c', name: 'C' },
+  ],
+  solution: {
+    couples: [{ id: 'c1', type: 'married', members: ['a', 'b'], children: ['c'] }],
+    links: [],
+  },
+  clues: [
+    { id: 'k1', kind: 'letter', title: 'L', text: 'hello' },
+    { id: 'k2', kind: 'photo', title: 'P', src: 'p.jpg' },
+    { id: 'k3', kind: 'audio', title: 'A', src: 'a.mp3', transcript: 't' },
+  ],
+});
+
+const expectRejects = (raw: unknown, fragment: string) => {
+  expect(() => validateLevel(raw)).toThrow(LevelValidationError);
+  expect(() => validateLevel(raw)).toThrow(fragment);
+};
+
+describe('validateLevel', () => {
+  it('accepts a valid level', () => {
+    const level = validateLevel(base());
+    expect(level.id).toBe('lvl');
+    expect(level.solution.couples[0].members).toEqual(['a', 'b']);
+  });
+
+  it('rejects a schema violation', () => {
+    const raw = base();
+    raw.solution.couples[0].type = 'engaged';
+    expectRejects(raw, 'type');
+  });
+
+  it('rejects duplicate person ids', () => {
+    const raw = base();
+    raw.people.push({ id: 'a', name: 'Dup' });
+    expectRejects(raw, 'duplicate person id "a"');
+  });
+
+  it('rejects duplicate clue ids', () => {
+    const raw = base();
+    raw.clues.push({ id: 'k1', kind: 'letter', title: 'X', text: 'x' });
+    expectRejects(raw, 'duplicate clue id "k1"');
+  });
+
+  it('rejects unknown couple member', () => {
+    const raw = base();
+    raw.solution.couples[0].members = ['a', 'zz'];
+    expectRejects(raw, 'unknown person "zz"');
+  });
+
+  it('rejects a couple of a person with themselves', () => {
+    const raw = base();
+    raw.solution.couples[0].members = ['a', 'a'];
+    expectRejects(raw, 'same person');
+  });
+
+  it('rejects two couples with the same pair', () => {
+    const raw = base();
+    raw.solution.couples.push({ id: 'c2', type: 'divorced', members: ['b', 'a'], children: [] });
+    expectRejects(raw, 'same members');
+  });
+
+  it('rejects a child of two couples', () => {
+    const raw = base();
+    raw.people.push({ id: 'd', name: 'D' });
+    raw.solution.couples.push({ id: 'c2', type: 'partners', members: ['a', 'd'], children: ['c'] });
+    expectRejects(raw, 'child of more than one couple');
+  });
+
+  it('rejects a child of their own couple', () => {
+    const raw = base();
+    raw.solution.couples[0].children = ['a'];
+    expectRejects(raw, 'child of a couple they belong to');
+  });
+
+  it('rejects non-empty links', () => {
+    const raw = base();
+    (raw.solution.links as unknown[]).push({ type: 'killed', from: 'a', to: 'b' });
+    expectRejects(raw, 'links');
+  });
+
+  it('rejects tutorial targets that do not exist', () => {
+    const raw = { ...base(), tutorial: [{ text: 'x', highlight: 'clue:nope', until: 'next' }] };
+    expectRejects(raw, 'highlight "clue:nope"');
+    const raw2 = { ...base(), tutorial: [{ text: 'x', until: 'toolSelected:hammer' }] };
+    expectRejects(raw2, 'until "toolSelected:hammer"');
+  });
+});
