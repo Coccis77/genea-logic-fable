@@ -9,7 +9,10 @@ export function useLevelIndex(): { entries: LevelIndexEntry[] | null; error: str
     let cancelled = false;
     loadLevelIndex()
       .then((list) => { if (!cancelled) setEntries(list); })
-      .catch((e: Error) => { if (!cancelled) setError(e.message); });
+      .catch((e: Error) => {
+        console.error(e);
+        if (!cancelled) setError(e.message);
+      });
     return () => { cancelled = true; };
   }, []);
   return { entries, error };

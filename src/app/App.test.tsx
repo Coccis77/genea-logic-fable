@@ -16,6 +16,7 @@ const levelJson = (id: string) => ({
 const mockFetch = (handler: (url: string) => Response | Promise<Response>) =>
   vi.spyOn(globalThis, 'fetch').mockImplementation((input) => Promise.resolve(handler(String(input))));
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status });
+const silenceConsoleError = () => vi.spyOn(console, 'error').mockImplementation(() => {});
 
 beforeEach(() => {
   useGameStore.setState({ ...initialGameState, screen: 'menu', level: null, completed: [] });
@@ -65,6 +66,7 @@ describe('App', () => {
   });
 
   it('returns to the menu when the next level fails to load', async () => {
+    const consoleError = silenceConsoleError();
     const user = userEvent.setup();
     mockFetch((url) => {
       if (url.endsWith('index.json')) return json(index);
@@ -80,6 +82,7 @@ describe('App', () => {
     await user.click(screen.getByRole('button', { name: 'Check' }));
     await user.click(await screen.findByRole('button', { name: 'Next level' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 404');
+    expect(consoleError).toHaveBeenCalledOnce();
     await user.click(screen.getByRole('button', { name: 'Back to menu' }));
     expect(await screen.findByRole('button', { name: /Level 1/ })).toBeInTheDocument();
     expect(useGameStore.getState().screen).toBe('menu');
@@ -94,18 +97,22 @@ describe('App', () => {
   });
 
   it('shows an error screen when a level fails to load', async () => {
+    const consoleError = silenceConsoleError();
     const user = userEvent.setup();
     mockFetch((url) => (url.endsWith('index.json') ? json(index) : json({}, 404)));
     render(<App />);
     await user.click(await screen.findByRole('button', { name: /Level 1/ }));
     expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 404');
+    expect(consoleError).toHaveBeenCalledOnce();
     await user.click(screen.getByRole('button', { name: 'Back to menu' }));
     expect(await screen.findByRole('button', { name: /Level 1/ })).toBeInTheDocument();
   });
 
   it('shows an error when the index fails to load', async () => {
+    const consoleError = silenceConsoleError();
     mockFetch(() => json('nope', 500));
     render(<App />);
     expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 500');
+    expect(consoleError).toHaveBeenCalledOnce();
   });
 });

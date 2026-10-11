@@ -23,6 +23,7 @@ export function App() {
       setNextId(nextLevelId(entries, id));
       useGameStore.getState().openLevel(level);
     } catch (e) {
+      console.error(e);
       setError((e as Error).message);
     } finally {
       setLoading(false);
