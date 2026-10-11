@@ -64,6 +64,27 @@ describe('App', () => {
     expect(await screen.findByText('Title level-2')).toBeInTheDocument();
   });
 
+  it('returns to the menu when the next level fails to load', async () => {
+    const user = userEvent.setup();
+    mockFetch((url) => {
+      if (url.endsWith('index.json')) return json(index);
+      if (url.includes('level-2')) return json({}, 404);
+      return json(levelJson('level-1'));
+    });
+    render(<App />);
+    await user.click(await screen.findByRole('button', { name: /Level 1/ }));
+    await screen.findByText('Title level-1');
+    await user.click(screen.getByRole('button', { name: /Married/ }));
+    await user.click(screen.getByText('Ann'));
+    await user.click(screen.getByText('Bob'));
+    await user.click(screen.getByRole('button', { name: 'Check' }));
+    await user.click(await screen.findByRole('button', { name: 'Next level' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 404');
+    await user.click(screen.getByRole('button', { name: 'Back to menu' }));
+    expect(await screen.findByRole('button', { name: /Level 1/ })).toBeInTheDocument();
+    expect(useGameStore.getState().screen).toBe('menu');
+  });
+
   it('shows the tutorial overlay on the tutorial level', async () => {
     const user = userEvent.setup();
     mockFetch((url) => (url.endsWith('index.json') ? json(index) : json(levelJson('tutorial'))));

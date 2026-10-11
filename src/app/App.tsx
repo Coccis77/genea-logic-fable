@@ -29,7 +29,7 @@ export function App() {
     }
   }, []);
 
-  if (error) return <ErrorScreen message={error} onBack={() => setError(null)} />;
+  if (error) return <ErrorScreen message={error} onBack={() => { useGameStore.getState().leaveLevel(); setError(null); }} />;
   if (loading) return <div className="screen screen-centered"><p>Loading…</p></div>;
   if (screen === 'game' && levelId) {
     return <GameScreen hasNext={nextId !== null} onNext={() => { if (nextId) void play(nextId); }} />;
