@@ -84,6 +84,7 @@ function BoardCanvas() {
         edgesFocusable={false}
         deleteKeyCode={null}
         zoomOnDoubleClick={false}
+        panOnScroll
         fitView
         proOptions={{ hideAttribution: true }}
       >

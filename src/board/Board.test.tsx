@@ -29,6 +29,17 @@ describe('Board', () => {
     expect(container.querySelector('.react-flow__controls')).not.toBeNull();
   });
 
+  it('two-finger scroll pans the board instead of zooming', async () => {
+    const { container } = render(<Board />);
+    const pane = container.querySelector('.react-flow__pane') as HTMLElement;
+    const viewport = container.querySelector('.react-flow__viewport') as HTMLElement;
+    const before = viewport.style.transform;
+    fireEvent.wheel(pane, { deltaX: 0, deltaY: 40, clientX: 100, clientY: 100 });
+    await waitFor(() => expect(viewport.style.transform).not.toBe(before));
+    const scale = (t: string) => t.match(/scale\(([\d.]+)\)/)?.[1];
+    expect(scale(viewport.style.transform)).toBe(scale(before));
+  });
+
   it('builds a couple and a child through toolbar + clicks', async () => {
     const user = userEvent.setup();
     render(<Board />);
