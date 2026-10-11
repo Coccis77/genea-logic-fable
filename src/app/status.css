@@ -1,0 +1,14 @@
+.status-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: var(--panel); color: var(--panel-text); border-bottom: 1px solid var(--surface-border); font-family: var(--font); }
+.status-title { font-size: 18px; margin: 0; flex: 1; }
+.status-actions { display: flex; align-items: center; gap: 8px; }
+.progress { width: 160px; height: 10px; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); transition: width 0.2s; }
+.mistakes, .check-message { font-size: 14px; }
+.hints { position: relative; }
+.hints-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: var(--surface); color: var(--text); border: 1px solid var(--surface-border); border-radius: 4px; padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; z-index: 20; white-space: nowrap; box-shadow: var(--shadow); }
+.theme-select { font: inherit; font-family: var(--font); background: var(--surface); color: var(--text); border: 1px solid var(--surface-border); border-radius: 4px; padding: 4px 6px; }
+.tool-button-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+.overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); display: flex; align-items: center; justify-content: center; z-index: 40; }
+.dialog { background: var(--surface); color: var(--text); border: 1px solid var(--surface-border); border-radius: 6px; padding: 20px 24px; min-width: 300px; box-shadow: var(--shadow); font-family: var(--font); }
+.dialog h2 { margin-top: 0; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
