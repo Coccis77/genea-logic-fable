@@ -227,10 +227,10 @@ Five colour themes, selected from the menu and from the status bar, persisted in
 | id | Name | Mood | Background | Person cards | Links / accent |
 |---|---|---|---|---|---|
 | `detective-board` (default) | Detective Board | cork board, red string | light brown cork | cream index cards, paper shadow | red string, pins |
-| `old-archive` | Old Archive | civil registers, sepia | yellowed paper | ivory cards, brown border | brown ink, burgundy accent |
-| `night-office` | Night Office | dark, desk lamp | deep blue-grey | slate, light text | amber |
+| `manila-files` | Manila Files | case files on a desk, typewriter | kraft/manila | index cards, dashed folder border | red rubber-stamp accent |
+| `neon-city` | Neon City | rainy night, neon signs | deep indigo | dark cards with a cyan glow, light-grey text | magenta strings, cyan child links |
 | `blueprint` | Blueprint | architect's plan | Prussian blue, fine grid | white outline, transparent fill | white lines, cyan accent |
-| `noir` | Noir | film noir, pure contrast | charcoal | off-white, sharp border | light grey, single blood-red accent |
+| `chalkboard` | Chalkboard | classroom slate, handwriting | dark green board | chalk-white dashed outlines, transparent fill | yellow and pink chalk accents |
 
 ## 10. Screens and navigation
 

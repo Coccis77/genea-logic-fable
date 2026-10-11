@@ -4,6 +4,7 @@
   --bg-pattern: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
   --surface: #fdf6e3;
   --surface-border: #c9b48a;
+  --surface-style: solid;
   --text: #2b2118;
   --text-muted: #6b5a48;
   --accent: #c0392b;
@@ -17,42 +18,45 @@
   --label-text: #fdf6e3;
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
-:root[data-theme='old-archive'] {
-  --font: 'Georgia', serif;
-  --bg: #e8dcc0;
-  --bg-pattern: none;
-  --surface: #fbf5e6;
-  --surface-border: #8b6b43;
-  --text: #3b2a1a;
-  --text-muted: #7a6650;
-  --accent: #7b1e2b;
-  --link: #5a3a1e;
-  --link-child: #7b1e2b;
-  --highlight: #d4a017;
-  --panel: #f1e7cf;
-  --popover: #fbf5e6;
-  --label-bg: #3b2a1a;
-  --label-text: #fbf5e6;
-  --shadow: 0 1px 3px rgba(60, 40, 20, 0.3);
+:root[data-theme='manila-files'] {
+  --font: 'Courier New', 'Courier', monospace;
+  --bg: #d9b77a;
+  --bg-pattern: linear-gradient(rgba(120, 80, 20, 0.08) 1px, transparent 1px);
+  --surface: #fbf3dc;
+  --surface-border: #8a6a3c;
+  --surface-style: dashed;
+  --text: #2f2415;
+  --text-muted: #7a6240;
+  --accent: #b22222;
+  --accent-text: #fff;
+  --link: #8a6a3c;
+  --link-child: #b22222;
+  --highlight: #e0a800;
+  --panel: #e7c88f;
+  --popover: #fbf3dc;
+  --label-bg: #b22222;
+  --label-text: #fbf3dc;
+  --shadow: 1px 2px 0 rgba(90, 60, 20, 0.35);
 }
-:root[data-theme='night-office'] {
+:root[data-theme='neon-city'] {
   --font: 'Helvetica Neue', Arial, sans-serif;
-  --bg: #1f2733;
-  --bg-pattern: none;
-  --surface: #2e3948;
-  --surface-border: #4a5868;
-  --text: #e8edf2;
-  --text-muted: #9aa8b8;
-  --accent: #f0b429;
-  --accent-text: #1f2733;
-  --link: #f0b429;
-  --link-child: #d79a16;
-  --highlight: #f0b429;
-  --panel: #27303d;
-  --popover: #2e3948;
-  --label-bg: #e8edf2;
-  --label-text: #2e3948;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --bg: #12102a;
+  --bg-pattern: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  --surface: #1c1a3d;
+  --surface-border: #35e0ff;
+  --surface-style: solid;
+  --text: #d8dcf0;
+  --text-muted: #8f95c4;
+  --accent: #ff4fd8;
+  --accent-text: #12102a;
+  --link: #ff4fd8;
+  --link-child: #35e0ff;
+  --highlight: #ffe95c;
+  --panel: #161433;
+  --popover: #221f4d;
+  --label-bg: #35e0ff;
+  --label-text: #12102a;
+  --shadow: 0 0 10px rgba(53, 224, 255, 0.35);
 }
 :root[data-theme='blueprint'] {
   --font: 'Courier New', monospace;
@@ -60,6 +64,7 @@
   --bg-pattern: linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
   --surface: transparent;
   --surface-border: #ffffff;
+  --surface-style: solid;
   --text: #ffffff;
   --text-muted: #bcd3ff;
   --accent: #19d3f5;
@@ -73,27 +78,29 @@
   --label-text: #0b3d91;
   --shadow: none;
 }
-:root[data-theme='noir'] {
-  --font: 'Helvetica Neue', Arial, sans-serif;
-  --bg: #121212;
-  --bg-pattern: none;
-  --surface: #f2f0ea;
-  --surface-border: #f2f0ea;
-  --text: #121212;
-  --text-muted: #555;
-  --accent: #b3001b;
-  --link: #cfcfcf;
-  --link-child: #b3001b;
-  --highlight: #b3001b;
-  --panel: #1c1c1c;
-  --popover: #f2f0ea;
-  --label-bg: #121212;
-  --label-text: #f2f0ea;
+:root[data-theme='chalkboard'] {
+  --font: 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', cursive;
+  --bg: #2f4f3f;
+  --bg-pattern: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  --surface: transparent;
+  --surface-border: #ece8d8;
+  --surface-style: dashed;
+  --text: #ece8d8;
+  --text-muted: #bfc6b4;
+  --accent: #f6e27a;
+  --accent-text: #2f4f3f;
+  --link: #ece8d8;
+  --link-child: #f6a7c9;
+  --highlight: #f6e27a;
+  --panel: #284437;
+  --popover: #284437;
+  --label-bg: #ece8d8;
+  --label-text: #2f4f3f;
   --shadow: none;
 }
-:root[data-theme='night-office'], :root[data-theme='blueprint'], :root[data-theme='noir'] {
+:root[data-theme='neon-city'], :root[data-theme='blueprint'], :root[data-theme='chalkboard'] {
   --panel-text: #e8edf2;
 }
-:root, :root[data-theme='detective-board'], :root[data-theme='old-archive'] {
+:root, :root[data-theme='detective-board'], :root[data-theme='manila-files'] {
   --panel-text: var(--text);
 }

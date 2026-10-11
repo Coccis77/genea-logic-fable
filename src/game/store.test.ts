@@ -268,10 +268,10 @@ describe('persistence', () => {
 
   it('hints and theme persist and theme applies', () => {
     s().setHint('showProgress', true);
-    s().setTheme('noir');
+    s().setTheme('chalkboard');
     expect(loadSave().hints.showProgress).toBe(true);
-    expect(loadSave().theme).toBe('noir');
-    expect(document.documentElement.dataset.theme).toBe('noir');
+    expect(loadSave().theme).toBe('chalkboard');
+    expect(document.documentElement.dataset.theme).toBe('chalkboard');
   });
 });
 

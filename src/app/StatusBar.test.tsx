@@ -66,8 +66,8 @@ describe('StatusBar', () => {
   it('theme select changes the theme', async () => {
     const user = userEvent.setup();
     render(<StatusBar onNext={vi.fn()} hasNext />);
-    await user.selectOptions(screen.getByLabelText('Theme'), 'noir');
-    expect(s().theme).toBe('noir');
+    await user.selectOptions(screen.getByLabelText('Theme'), 'chalkboard');
+    expect(s().theme).toBe('chalkboard');
   });
 
   it('menu button leaves the level', async () => {

@@ -13,7 +13,7 @@ describe('save', () => {
     data.completed.push('tutorial');
     data.boards['level-1'] = { positions: { a: { x: 1, y: 2 } }, couples: [{ id: 'c-a-b', type: 'married', members: ['a', 'b'], children: [] }] };
     data.hints.showProgress = true;
-    data.theme = 'noir';
+    data.theme = 'chalkboard';
     writeSave(data);
     expect(loadSave()).toEqual(data);
   });

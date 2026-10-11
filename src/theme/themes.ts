@@ -1,11 +1,11 @@
-export type ThemeId = 'detective-board' | 'old-archive' | 'night-office' | 'blueprint' | 'noir';
+export type ThemeId = 'detective-board' | 'manila-files' | 'neon-city' | 'blueprint' | 'chalkboard';
 
 export const THEMES: { id: ThemeId; name: string }[] = [
   { id: 'detective-board', name: 'Detective Board' },
-  { id: 'old-archive', name: 'Old Archive' },
-  { id: 'night-office', name: 'Night Office' },
+  { id: 'manila-files', name: 'Manila Files' },
+  { id: 'neon-city', name: 'Neon City' },
   { id: 'blueprint', name: 'Blueprint' },
-  { id: 'noir', name: 'Noir' },
+  { id: 'chalkboard', name: 'Chalkboard' },
 ];
 
 export const DEFAULT_THEME: ThemeId = 'detective-board';
