@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { initialGameState, selectBoard, useGameStore } from '../game/store';
 import type { Level } from '../levels/types';
@@ -53,6 +53,27 @@ describe('Board', () => {
     expect(selectBoard(useGameStore.getState()).couples).toHaveLength(0);
     fireEvent.keyDown(window, { key: 'z', ctrlKey: true, shiftKey: true });
     expect(selectBoard(useGameStore.getState()).couples).toHaveLength(1);
+  });
+
+  it('erases a child link by clicking its edge with the Erase tool', async () => {
+    const store = useGameStore.getState();
+    store.selectTool('married');
+    store.clickPerson('a');
+    store.clickPerson('b');
+    store.selectTool('child');
+    store.clickCouple('c-a-b');
+    store.clickPerson('c');
+    expect(selectBoard(useGameStore.getState()).couples[0].children).toEqual(['c']);
+    const user = userEvent.setup();
+    const { container } = render(<Board />);
+    await user.click(screen.getByRole('button', { name: /Erase/ }));
+    const edge = await waitFor(() => {
+      const el = container.querySelector('.react-flow__edge[data-id="child:c-a-b:c"]');
+      expect(el).not.toBeNull();
+      return el as Element;
+    });
+    fireEvent.click(edge);
+    expect(selectBoard(useGameStore.getState()).couples[0].children).toEqual([]);
   });
 
   it('ignores shortcuts typed into inputs', () => {

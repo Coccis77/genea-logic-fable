@@ -1,7 +1,8 @@
 import { MarkerType } from '@xyflow/react';
 import { addChild, createCouple, initialLayout } from '../game/board';
 import type { Level } from '../levels/types';
-import { toFlowEdges, toFlowNodes } from './flow';
+import type { Node } from '@xyflow/react';
+import { mergeFlowNodes, toFlowEdges, toFlowNodes } from './flow';
 
 const level: Level = {
   id: 'l', title: 't',
@@ -29,5 +30,28 @@ describe('toFlowEdges', () => {
       source: 'c-a-b', sourceHandle: 'out', target: 'c', targetHandle: 'in', type: 'smoothstep',
       markerEnd: { type: MarkerType.ArrowClosed }, data: { coupleId: 'c-a-b', childId: 'c' },
     });
+  });
+});
+
+describe('mergeFlowNodes', () => {
+  const prev: Node[] = [
+    { id: 'a', position: { x: 1, y: 1 }, data: { v: 'old' }, measured: { width: 10, height: 20 }, width: 10, height: 20 },
+    { id: 'gone', position: { x: 0, y: 0 }, data: {} },
+  ];
+  const next: Node[] = [
+    { id: 'a', position: { x: 5, y: 6 }, data: { v: 'new' } },
+    { id: 'fresh', position: { x: 2, y: 2 }, data: {} },
+  ];
+
+  it('keeps measurements from previous but position and data from next', () => {
+    expect(mergeFlowNodes(prev, next)[0]).toEqual({
+      id: 'a', position: { x: 5, y: 6 }, data: { v: 'new' }, measured: { width: 10, height: 20 }, width: 10, height: 20,
+    });
+  });
+
+  it('returns nodes absent from previous unchanged and drops nodes absent from next', () => {
+    const merged = mergeFlowNodes(prev, next);
+    expect(merged[1]).toBe(next[1]);
+    expect(merged.map((n) => n.id)).toEqual(['a', 'fresh']);
   });
 });

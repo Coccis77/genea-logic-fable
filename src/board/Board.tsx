@@ -8,7 +8,7 @@ import { selectBoard, useGameStore, type Tool } from '../game/store';
 import { CoupleNode } from './CoupleNode';
 import { PersonNode } from './PersonNode';
 import { Toolbar } from './Toolbar';
-import { toFlowEdges, toFlowNodes, type ChildEdgeData } from './flow';
+import { mergeFlowNodes, toFlowEdges, toFlowNodes, type ChildEdgeData } from './flow';
 import './board.css';
 
 const nodeTypes = { person: PersonNode, couple: CoupleNode };
@@ -47,7 +47,7 @@ function BoardCanvas() {
 
   const [nodes, setNodes] = useState<Node[]>([]);
   useEffect(() => {
-    if (level) setNodes(toFlowNodes(level, board, pending));
+    if (level) setNodes((current) => mergeFlowNodes(current, toFlowNodes(level, board, pending)));
   }, [level, board, pending]);
   const edges = useMemo<Edge[]>(() => toFlowEdges(board), [board]);
 

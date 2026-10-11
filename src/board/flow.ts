@@ -42,3 +42,16 @@ export function toFlowEdges(board: BoardState): Edge[] {
   }
   return edges;
 }
+
+export function mergeFlowNodes(previous: Node[], next: Node[]): Node[] {
+  const byId = new Map(previous.map((n) => [n.id, n]));
+  return next.map((n) => {
+    const prev = byId.get(n.id);
+    if (!prev) return n;
+    const merged: Node = { ...n };
+    if (prev.measured !== undefined) merged.measured = prev.measured;
+    if (prev.width !== undefined) merged.width = prev.width;
+    if (prev.height !== undefined) merged.height = prev.height;
+    return merged;
+  });
+}
