@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { initialGameState, useGameStore } from '../game/store';
 import type { Level } from '../levels/types';
@@ -14,6 +14,7 @@ const level: Level = {
     { id: 'k3', kind: 'photo', title: 'The photo', src: 'p.jpg', description: 'Two people' },
     { id: 'k4', kind: 'audio', title: 'The tape', src: 'a.mp3', transcript: 'Hello there', description: 'Found in a drawer' },
     { id: 'k5', kind: 'video', title: 'The film', src: 'v.mp4', transcript: 'Smile!' },
+    { id: 'k6', kind: 'letter', title: 'Spaced', text: 'x', background: 'old paper.png' },
   ],
 };
 
@@ -26,7 +27,7 @@ describe('CluePanel', () => {
   it('lists clues with tutorial anchors', () => {
     render(<CluePanel />);
     expect(screen.getByRole('button', { name: /The letter/ })).toHaveAttribute('data-tutorial', 'clue:k1');
-    expect(screen.getAllByRole('listitem')).toHaveLength(5);
+    expect(screen.getAllByRole('listitem')).toHaveLength(6);
   });
 
   it('opens a letter with its background, then goes back', async () => {
@@ -39,7 +40,7 @@ describe('CluePanel', () => {
     expect(sheet.querySelector('strong')?.textContent).toBe('Paul');
     await user.click(screen.getByRole('button', { name: 'Back' }));
     expect(useGameStore.getState().openClueId).toBeNull();
-    expect(screen.getAllByRole('listitem')).toHaveLength(5);
+    expect(screen.getAllByRole('listitem')).toHaveLength(6);
   });
 
   it('keeps absolute background URLs', async () => {
@@ -47,6 +48,35 @@ describe('CluePanel', () => {
     render(<CluePanel />);
     await user.click(screen.getByRole('button', { name: /The paper/ }));
     expect(screen.getByTestId('clue-sheet')).toHaveStyle({ backgroundImage: 'url(https://x.test/bg.jpg)' });
+  });
+
+  it('quotes and encodes background URLs so spaces work', async () => {
+    const user = userEvent.setup();
+    render(<CluePanel />);
+    await user.click(screen.getByRole('button', { name: /Spaced/ }));
+    expect(screen.getByTestId('clue-sheet').style.backgroundImage).toBe('url("/levels/lvl/old%20paper.png")');
+  });
+
+  it('shows a visible message when a media file fails to load', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CluePanel />);
+    await user.click(screen.getByRole('button', { name: /The photo/ }));
+    fireEvent.error(screen.getByRole('img', { name: 'The photo' }));
+    expect(screen.getByRole('alert')).toHaveTextContent('Media not found: /levels/lvl/p.jpg');
+    await user.click(screen.getByRole('button', { name: 'Back' }));
+    await user.click(screen.getByRole('button', { name: /The tape/ }));
+    fireEvent.error(container.querySelector('audio') as HTMLElement);
+    expect(screen.getByRole('alert')).toHaveTextContent('Media not found: /levels/lvl/a.mp3');
+  });
+
+  it('closes the fullscreen photo with Escape', async () => {
+    const user = userEvent.setup();
+    render(<CluePanel />);
+    await user.click(screen.getByRole('button', { name: /The photo/ }));
+    await user.click(screen.getByRole('img', { name: 'The photo' }));
+    expect(screen.getByRole('dialog', { name: 'The photo' })).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).toBeNull();
   });
 
   it('renders photo, audio and video details', async () => {

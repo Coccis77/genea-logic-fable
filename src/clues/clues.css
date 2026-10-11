@@ -12,6 +12,7 @@
 .clue-photo { width: 100%; cursor: zoom-in; border: 4px solid var(--surface); box-shadow: var(--shadow); }
 .clue-fullscreen { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 50; cursor: zoom-out; }
 .clue-fullscreen img { max-width: 95vw; max-height: 95vh; }
+.clue-missing { color: var(--accent); font-weight: bold; }
 .clue-description { font-style: italic; color: var(--text-muted); }
 .clue-media { width: 100%; margin-bottom: 8px; }
 .clue-transcript { background: var(--surface); color: var(--text); padding: 8px 12px; border: 1px solid var(--surface-border); }
