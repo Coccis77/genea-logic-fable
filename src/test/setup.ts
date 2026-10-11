@@ -7,7 +7,7 @@ class ResizeObserverMock {
     this.callback = callback;
   }
   observe(target: Element) {
-    this.callback([{ target } as ResizeObserverEntry], this as unknown as ResizeObserver);
+    this.callback([{ target, contentRect: { width: 1, height: 1 } } as ResizeObserverEntry], this as unknown as ResizeObserver);
   }
   unobserve() {}
   disconnect() {}
@@ -31,6 +31,23 @@ Object.defineProperties(HTMLElement.prototype, {
 
 (SVGElement.prototype as unknown as { getBBox: () => DOMRect }).getBBox = () =>
   ({ x: 0, y: 0, width: 0, height: 0 }) as DOMRect;
+
+// user-event dispatches mouse events with view === null (via a non-configurable property);
+// d3-zoom/d3-drag, used by React Flow, dereference event.view. Make `view` configurable so the
+// capture listener below can point it at the window.
+const NativeMouseEvent = window.MouseEvent;
+class ConfigurableViewMouseEvent extends NativeMouseEvent {
+  constructor(type: string, init?: MouseEventInit) {
+    super(type, init);
+    Object.defineProperty(this, 'view', { configurable: true, get: () => init?.view ?? null });
+  }
+}
+Object.defineProperty(window, 'MouseEvent', { writable: true, configurable: true, value: ConfigurableViewMouseEvent });
+for (const type of ['mousedown', 'mouseup', 'mousemove']) {
+  window.addEventListener(type, (event) => {
+    if ((event as MouseEvent).view === null) Object.defineProperty(event, 'view', { configurable: true, value: window });
+  }, true);
+}
 
 beforeEach(() => {
   localStorage.clear();
