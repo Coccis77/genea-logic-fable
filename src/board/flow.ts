@@ -23,6 +23,7 @@ export function toFlowNodes(level: Level, board: BoardState, pending: Pending): 
     id: c.id,
     type: 'couple',
     position: board.positions[c.id] ?? { x: 0, y: 0 },
+    origin: [0.5, 0],
     data: { coupleType: c.type, selected: pending?.kind === 'couple' && pending.id === c.id },
   }));
   return [...people, ...couples];
@@ -41,7 +42,7 @@ export function toFlowEdges(board: BoardState): Edge[] {
       // React Flow paints the marker colour through an inline style, so a theme variable resolves.
       edges.push({
         id: `child:${c.id}:${child}`, source: c.id, sourceHandle: 'out', target: child, targetHandle: 'in',
-        type: 'smoothstep', className: 'edge-child', markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--link-child)' },
+        type: 'default', className: 'edge-child', markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--link-child)' },
         data: { coupleId: c.id, childId: child } satisfies ChildEdgeData,
       });
     }

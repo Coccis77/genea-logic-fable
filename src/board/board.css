@@ -9,7 +9,8 @@
 .person-years { font-size: 12px; color: var(--text-muted); }
 .board:not(.tool-select) .person-node { cursor: crosshair; }
 .person-node.is-selected, .couple-node.is-selected .couple-dot { outline: 3px solid var(--highlight); outline-offset: 2px; }
-.couple-node { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+/* Padding plus negative margin widens the click target without moving the dot. */
+.couple-node { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 8px; margin: -8px; }
 .couple-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--link); border: 2px solid var(--surface-border); }
 .couple-label { font-family: var(--font); font-size: 11px; color: var(--label-text); background: var(--label-bg); padding: 1px 5px; border-radius: 3px; margin-top: 2px; white-space: nowrap; }
 .hidden-handle { opacity: 0; width: 1px; height: 1px; min-width: 0; min-height: 0; border: 0; pointer-events: none; }

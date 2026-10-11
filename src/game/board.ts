@@ -8,7 +8,6 @@ export interface BoardState {
 
 export const PERSON_WIDTH = 160;
 export const PERSON_HEIGHT = 64;
-const DOT_SIZE = 12;
 const CELL_W = 220;
 const CELL_H = 140;
 const MARGIN = 40;
@@ -37,8 +36,9 @@ export function createCouple(board: BoardState, a: string, b: string, type: Coup
   const id = coupleId(a, b);
   const pa = board.positions[a] ?? { x: 0, y: 0 };
   const pb = board.positions[b] ?? { x: 0, y: 0 };
+  // Couple nodes use origin [0.5, 0], so x is the dot's centre: the midpoint of the two cards.
   const dot: Position = {
-    x: (pa.x + pb.x) / 2 + PERSON_WIDTH / 2 - DOT_SIZE / 2,
+    x: (pa.x + pb.x) / 2 + PERSON_WIDTH / 2,
     y: Math.max(pa.y, pb.y) + PERSON_HEIGHT + 60,
   };
   return {

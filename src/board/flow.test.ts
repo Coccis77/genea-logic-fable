@@ -19,7 +19,7 @@ describe('toFlowNodes', () => {
     expect(nodes[0]).toMatchObject({ type: 'person', position: { x: 40, y: 40 }, data: { name: 'Ann', selected: false, born: 1920, died: 1988 } });
     expect(nodes[1].data).toEqual({ name: 'Bob', selected: false });
     expect(nodes[2].data).toMatchObject({ born: 1950 });
-    expect(nodes[3]).toMatchObject({ type: 'couple', data: { coupleType: 'married', selected: true } });
+    expect(nodes[3]).toMatchObject({ type: 'couple', origin: [0.5, 0], data: { coupleType: 'married', selected: true } });
   });
 });
 
@@ -29,7 +29,7 @@ describe('toFlowEdges', () => {
     expect(edges.map((e) => e.id)).toEqual(['couple:c-a-b:a', 'couple:c-a-b:b', 'child:c-a-b:c']);
     expect(edges[0]).toMatchObject({ source: 'a', sourceHandle: 'couple', target: 'c-a-b', targetHandle: 'in', type: 'straight' });
     expect(edges[2]).toMatchObject({
-      source: 'c-a-b', sourceHandle: 'out', target: 'c', targetHandle: 'in', type: 'smoothstep',
+      source: 'c-a-b', sourceHandle: 'out', target: 'c', targetHandle: 'in', type: 'default',
       markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--link-child)' }, data: { coupleId: 'c-a-b', childId: 'c' },
     });
   });

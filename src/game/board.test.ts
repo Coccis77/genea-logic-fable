@@ -20,7 +20,7 @@ describe('createCouple', () => {
   it('creates a couple with a deterministic id and a dot position', () => {
     const board = createCouple(fresh(), 'b', 'a', 'married');
     expect(board.couples).toEqual([{ id: 'c-a-b', type: 'married', members: ['b', 'a'], children: [] }]);
-    expect(board.positions['c-a-b']).toEqual({ x: (40 + 260) / 2 + 80 - 6, y: 40 + PERSON_HEIGHT + 60 });
+    expect(board.positions['c-a-b']).toEqual({ x: (40 + 260) / 2 + 80, y: 40 + PERSON_HEIGHT + 60 }); // centre x: node origin is [0.5, 0]
     expect(coupleId('b', 'a')).toBe('c-a-b');
   });
 
