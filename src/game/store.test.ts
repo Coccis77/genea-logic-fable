@@ -52,8 +52,14 @@ describe('openLevel', () => {
     };
     writeSave(save);
     s().openLevel(level);
-    expect(board().couples.map((c) => c.id)).toEqual(['c-a-b']);
-    expect(board().positions).toEqual({ a: { x: 5, y: 5 }, b: { x: 260, y: 40 }, c: { x: 40, y: 180 }, 'c-a-b': { x: 9, y: 9 } });
+    // c-a-zz goes (unknown member); c-b-c stays but loses its unknown child; its missing dot gets a position
+    expect(board().couples).toEqual([
+      { id: 'c-a-b', type: 'divorced', members: ['a', 'b'], children: ['c'] },
+      { id: 'c-b-c', type: 'partners', members: ['b', 'c'], children: [] },
+    ]);
+    expect(board().positions).toMatchObject({ a: { x: 5, y: 5 }, b: { x: 260, y: 40 }, c: { x: 40, y: 180 }, 'c-a-b': { x: 9, y: 9 } });
+    expect(board().positions['c-b-c']).toEqual({ x: (260 + 40) / 2 + 80, y: 180 + 64 + 60 });
+    expect(board().positions.ghost).toBeUndefined();
   });
 });
 

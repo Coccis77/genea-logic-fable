@@ -83,13 +83,18 @@ export const selectCurrentTutorialStep = (s: GameState): TutorialStep | null =>
 
 function sanitiseBoard(level: Level, board: BoardState | undefined): BoardState {
   const people = new Set(level.people.map((p) => p.id));
-  const couples = (board?.couples ?? []).filter(
-    (c) => c.members.every((m) => people.has(m)) && c.children.every((ch) => people.has(ch)),
-  );
+  // A couple survives as long as both members exist; children that no longer exist are dropped.
+  const couples = (board?.couples ?? [])
+    .filter((c) => c.members.every((m) => people.has(m)))
+    .map((c) => ({ ...c, children: c.children.filter((ch) => people.has(ch)) }));
   const keep = new Set([...people, ...couples.map((c) => c.id)]);
   const positions: Record<string, Position> = { ...initialLayout(level.people) };
   for (const [id, pos] of Object.entries(board?.positions ?? {})) {
     if (keep.has(id)) positions[id] = pos;
+  }
+  // A couple without a saved dot position (hand-edited save) gets one between its members.
+  for (const c of couples) {
+    if (!positions[c.id]) positions[c.id] = createCouple({ positions, couples: [] }, c.members[0], c.members[1], c.type).positions[c.id];
   }
   return { positions, couples };
 }
