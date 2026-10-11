@@ -167,6 +167,28 @@ describe('history', () => {
   });
 });
 
+describe('no-op mutations', () => {
+  it('same-position moveNode pushes no history', () => {
+    const past = s().history.past.length;
+    s().moveNode('a', { x: 40, y: 40 });
+    expect(s().history.past.length).toBe(past);
+  });
+
+  it('erase on a missing child edge pushes no history', () => {
+    buildFamily();
+    s().selectTool('erase');
+    const past = s().history.past.length;
+    s().clickChildEdge('c-a-b', 'zzz');
+    expect(s().history.past.length).toBe(past);
+  });
+
+  it('child tool ignores unknown couple ids', () => {
+    s().selectTool('child');
+    s().clickCouple('nope');
+    expect(s().pending).toBeNull();
+  });
+});
+
 describe('check and scoring', () => {
   it('scores live', () => {
     expect(selectScore(s())).toEqual({ correct: 0, mistakes: 0, missing: 2, total: 2, complete: false });
@@ -180,6 +202,14 @@ describe('check and scoring', () => {
     expect(s().lastCheck).toBe('incomplete');
     s().moveNode('a', { x: 2, y: 2 });
     expect(s().lastCheck).toBe('none');
+  });
+
+  it('undo clears victory', () => {
+    buildFamily();
+    s().check();
+    expect(s().victory).toBe(true);
+    s().undo();
+    expect(s().victory).toBe(false);
   });
 
   it('complete check sets victory and persists completion', () => {

@@ -167,7 +167,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
         if (couple && couple.type !== s.tool) commit(retypeCouple(board, id, s.tool));
         set({ pending: null });
       } else if (s.tool === 'child') {
-        set({ pending: { kind: 'couple', id } });
+        if (board.couples.some((c) => c.id === id)) set({ pending: { kind: 'couple', id } });
       } else if (s.tool === 'erase') {
         commit(removeCouple(board, id));
         set({ pending: null });
@@ -190,21 +190,21 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
     undo() {
       const s = get();
       if (!canUndo(s.history)) return;
-      set({ history: undoHistory(s.history), pending: null, lastCheck: 'none' });
+      set({ history: undoHistory(s.history), pending: null, lastCheck: 'none', victory: false });
       persist();
     },
 
     redo() {
       const s = get();
       if (!canRedo(s.history)) return;
-      set({ history: redoHistory(s.history), pending: null, lastCheck: 'none' });
+      set({ history: redoHistory(s.history), pending: null, lastCheck: 'none', victory: false });
       persist();
     },
 
     resetBoard() {
       const s = get();
       if (!s.level) return;
-      set({ history: createHistory({ positions: initialLayout(s.level.people), couples: [] }), pending: null, lastCheck: 'none' });
+      set({ history: createHistory({ positions: initialLayout(s.level.people), couples: [] }), pending: null, lastCheck: 'none', victory: false });
       persist();
     },
 

@@ -100,3 +100,25 @@ describe('moveNode', () => {
 it('emptyBoard has no positions and no couples', () => {
   expect(emptyBoard()).toEqual({ positions: {}, couples: [] });
 });
+
+describe('no-op mutations return the same board', () => {
+  const withCouple = (): BoardState => createCouple(fresh(), 'a', 'b', 'married');
+  it('moveNode to the same position', () => {
+    const b = fresh();
+    expect(moveNode(b, 'a', { x: 40, y: 40 })).toBe(b);
+  });
+  it('removeChild when couple absent or child not listed', () => {
+    const b = withCouple();
+    expect(removeChild(b, 'nope', 'c')).toBe(b);
+    expect(removeChild(b, 'c-a-b', 'c')).toBe(b);
+  });
+  it('removeCouple for a missing id', () => {
+    const b = withCouple();
+    expect(removeCouple(b, 'nope')).toBe(b);
+  });
+  it('retypeCouple when absent or same type', () => {
+    const b = withCouple();
+    expect(retypeCouple(b, 'nope', 'divorced')).toBe(b);
+    expect(retypeCouple(b, 'c-a-b', 'married')).toBe(b);
+  });
+});

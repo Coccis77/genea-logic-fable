@@ -48,10 +48,13 @@ export function createCouple(board: BoardState, a: string, b: string, type: Coup
 }
 
 export function retypeCouple(board: BoardState, id: string, type: CoupleType): BoardState {
+  const existing = board.couples.find((c) => c.id === id);
+  if (!existing || existing.type === type) return board;
   return { ...board, couples: board.couples.map((c) => (c.id === id ? { ...c, type } : c)) };
 }
 
 export function removeCouple(board: BoardState, id: string): BoardState {
+  if (!board.couples.some((c) => c.id === id)) return board;
   const { [id]: _removed, ...positions } = board.positions;
   return { positions, couples: board.couples.filter((c) => c.id !== id) };
 }
@@ -71,6 +74,8 @@ export function addChild(board: BoardState, id: string, personId: string): Board
 }
 
 export function removeChild(board: BoardState, id: string, personId: string): BoardState {
+  const existing = board.couples.find((c) => c.id === id);
+  if (!existing || !existing.children.includes(personId)) return board;
   return {
     ...board,
     couples: board.couples.map((c) =>
@@ -79,5 +84,7 @@ export function removeChild(board: BoardState, id: string, personId: string): Bo
 }
 
 export function moveNode(board: BoardState, nodeId: string, position: Position): BoardState {
+  const current = board.positions[nodeId];
+  if (current && current.x === position.x && current.y === position.y) return board;
   return { ...board, positions: { ...board.positions, [nodeId]: position } };
 }
