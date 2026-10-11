@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { loadLevel, loadLevelIndex, mediaUrl, LevelLoadError } from './loader';
 import { validateLevel } from './validate';
+import { scoreBoard } from '../scoring/score';
 
 const okJson = (body: unknown) =>
   Promise.resolve(new Response(JSON.stringify(body), { status: 200 }));
@@ -59,7 +60,14 @@ describe('loadLevel', () => {
   });
 });
 
-it('ships a valid tutorial level', () => {
-  const raw = JSON.parse(readFileSync('public/levels/tutorial/level.json', 'utf8'));
+it.each(['tutorial', 'level-1'])('ships a valid %s level', (id) => {
+  const raw = JSON.parse(readFileSync(`public/levels/${id}/level.json`, 'utf8'));
   expect(() => validateLevel(raw)).not.toThrow();
+});
+
+it('level-1 solution scores as complete against itself', () => {
+  const raw = JSON.parse(readFileSync('public/levels/level-1/level.json', 'utf8'));
+  const level = validateLevel(raw);
+  expect(scoreBoard(level.solution.couples, level.solution.couples).complete).toBe(true);
+  expect(scoreBoard([], level.solution.couples).total).toBe(9);
 });

@@ -1,0 +1,62 @@
+{
+  "id": "level-1",
+  "title": "The Marchetti Estate",
+  "people": [
+    { "id": "enzo", "name": "Enzo Marchetti" },
+    { "id": "clara", "name": "Clara Marchetti" },
+    { "id": "rosa", "name": "Rosa Bellini" },
+    { "id": "luca", "name": "Luca Marchetti" },
+    { "id": "sofia", "name": "Sofia Marchetti" },
+    { "id": "marco", "name": "Marco Vitale" },
+    { "id": "elena", "name": "Elena Vitale" },
+    { "id": "giulia", "name": "Giulia Marchetti" },
+    { "id": "tommaso", "name": "Tommaso Ricci" },
+    { "id": "nina", "name": "Nina Ricci" }
+  ],
+  "solution": {
+    "couples": [
+      { "id": "c1", "type": "divorced", "members": ["enzo", "clara"], "children": ["luca", "sofia"] },
+      { "id": "c2", "type": "married", "members": ["enzo", "rosa"], "children": ["giulia"] },
+      { "id": "c3", "type": "married", "members": ["sofia", "marco"], "children": ["elena"] },
+      { "id": "c4", "type": "partners", "members": ["luca", "nina"], "children": [] },
+      { "id": "c5", "type": "divorced", "members": ["nina", "tommaso"], "children": [] }
+    ],
+    "links": []
+  },
+  "clues": [
+    {
+      "id": "will",
+      "kind": "letter",
+      "title": "Extract from Enzo's will",
+      "text": "I, Enzo Marchetti, leave the estate to my three children in equal parts: **Luca**, **Sofia** and my youngest, **Giulia**, born of my marriage to my beloved wife **Rosa**.\n\nTo **Clara**, who was my wife for nineteen years before our divorce, I leave the painting she always admired."
+    },
+    {
+      "id": "notice",
+      "kind": "newspaper",
+      "title": "Wedding announcement, 1998",
+      "text": "**Marchetti — Vitale.** Sofia Marchetti, daughter of Enzo and Clara Marchetti, married Marco Vitale on Saturday at San Lorenzo. The couple will live in Turin."
+    },
+    {
+      "id": "photo-elena",
+      "kind": "photo",
+      "title": "Birthday photo",
+      "src": "elena.jpg",
+      "description": "Little Elena blowing out six candles. Written on the back: *Our daughter, 2006 — Sofia & Marco.*"
+    },
+    {
+      "id": "voicemail",
+      "kind": "audio",
+      "title": "Voicemail from Luca",
+      "src": "luca.mp3",
+      "description": "A message left on Enzo's phone.",
+      "transcript": "Dad, it's Luca. Nina and I are coming for dinner on Sunday. No, we're not getting married, stop asking — we're happy as we are. And yes, her divorce from Tommaso is final now, so you can stop worrying about that too."
+    },
+    {
+      "id": "interview",
+      "kind": "video",
+      "title": "Interview with Clara",
+      "src": "clara.mp4",
+      "transcript": "Interviewer: You were married to Enzo for nearly twenty years. Clara: Nineteen. We had Luca first, then Sofia. After the divorce he married Rosa Bellini within the year. I hear they have a little girl now."
+    }
+  ]
+}
