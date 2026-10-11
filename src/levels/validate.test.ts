@@ -48,6 +48,17 @@ describe('validateLevel', () => {
     expectRejects(raw, 'type');
   });
 
+  it('rejects person ids outside [a-z0-9_] so couple ids cannot collide', () => {
+    const raw = base();
+    raw.people[0].id = 'jean-paul';
+    expectRejects(raw, 'people.0.id');
+    raw.people[0].id = 'Jean';
+    expectRejects(raw, 'people.0.id');
+    raw.people[0].id = 'jean_paul2';
+    raw.solution.couples[0].members = ['jean_paul2', 'b'];
+    expect(() => validateLevel(raw)).not.toThrow();
+  });
+
   it('rejects duplicate person ids', () => {
     const raw = base();
     raw.people.push({ id: 'a', name: 'Dup' });
