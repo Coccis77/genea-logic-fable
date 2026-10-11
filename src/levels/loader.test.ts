@@ -50,7 +50,16 @@ describe('loadLevel', () => {
 
   it('rejects on invalid JSON', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{not json', { status: 200 }));
-    await expect(loadLevel('lvl')).rejects.toThrow(LevelLoadError);
+    await expect(loadLevel('lvl')).rejects.toThrow('invalid JSON');
+  });
+
+  it('reports a missing level folder when the server answers with HTML (SPA fallback)', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response('<!doctype html><html></html>', { status: 200, headers: { 'content-type': 'text/html' } }),
+    );
+    const error = loadLevel('lvl');
+    await expect(error).rejects.toThrow(LevelLoadError);
+    await expect(error).rejects.toThrow('level "lvl": not found (server returned text/html');
   });
 
   it('rejects with the validation message on an inconsistent level', async () => {

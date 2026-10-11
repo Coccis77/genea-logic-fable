@@ -22,6 +22,13 @@ async function fetchJson(url: string, what: string): Promise<unknown> {
     throw new LevelLoadError(`${what}: network error (${String(error)})`);
   }
   if (!response.ok) throw new LevelLoadError(`${what}: HTTP ${response.status}`);
+  // Accept JSON and text/plain (some static hosts); anything else (e.g. vite's text/html SPA fallback) means a missing file.
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.includes('json') && !contentType.includes('text/plain')) {
+    throw new LevelLoadError(
+      `${what}: not found (server returned ${contentType || 'no content type'} — is the level folder present under public/levels?)`,
+    );
+  }
   try {
     return await response.json();
   } catch {
