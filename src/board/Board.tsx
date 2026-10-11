@@ -4,7 +4,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { selectBoard, useGameStore, type Tool } from '../game/store';
+import { selectBoard, selectCurrentTutorialStep, useGameStore, type Tool } from '../game/store';
 import { CoupleNode } from './CoupleNode';
 import { PersonNode } from './PersonNode';
 import { Toolbar } from './Toolbar';
@@ -43,12 +43,14 @@ function BoardCanvas() {
   const board = useGameStore(selectBoard);
   const pending = useGameStore((s) => s.pending);
   const tool = useGameStore((s) => s.tool);
+  const highlight = useGameStore((s) => selectCurrentTutorialStep(s)?.highlight ?? null);
+  const bumpViewport = useGameStore((s) => s.bumpViewport);
   const { clickPerson, clickCouple, clickChildEdge, clickBackground, moveNode } = useGameStore.getState();
 
   const [nodes, setNodes] = useState<Node[]>([]);
   useEffect(() => {
-    if (level) setNodes((current) => mergeFlowNodes(current, toFlowNodes(level, board, pending)));
-  }, [level, board, pending]);
+    if (level) setNodes((current) => mergeFlowNodes(current, toFlowNodes(level, board, pending, highlight)));
+  }, [level, board, pending, highlight]);
   const edges = useMemo<Edge[]>(() => toFlowEdges(board), [board]);
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
@@ -77,6 +79,7 @@ function BoardCanvas() {
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
         onPaneClick={clickBackground}
+        onMove={bumpViewport}
         onNodeDragStop={(_, node) => moveNode(node.id, node.position)}
         nodesDraggable={tool === 'select'}
         nodesConnectable={false}

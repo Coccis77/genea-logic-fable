@@ -17,9 +17,18 @@ describe('toFlowNodes', () => {
     const nodes = toFlowNodes(level, board, { kind: 'couple', id: 'c-a-b' });
     expect(nodes.map((n) => n.id)).toEqual(['a', 'b', 'c', 'c-a-b']);
     expect(nodes[0]).toMatchObject({ type: 'person', position: { x: 40, y: 40 }, data: { name: 'Ann', selected: false, born: 1920, died: 1988 } });
-    expect(nodes[1].data).toEqual({ name: 'Bob', selected: false });
+    expect(nodes[1].data).toEqual({ name: 'Bob', selected: false, highlighted: false });
     expect(nodes[2].data).toMatchObject({ born: 1950 });
     expect(nodes[3]).toMatchObject({ type: 'couple', origin: [0.5, 0], data: { coupleType: 'married', selected: true } });
+  });
+});
+
+describe('toFlowNodes tutorial highlight', () => {
+  it('flags the highlighted person so the node renders its own halo', () => {
+    const nodes = toFlowNodes(level, board, null, 'person:a');
+    expect(nodes[0].data).toMatchObject({ highlighted: true });
+    expect(nodes[1].data).toMatchObject({ highlighted: false });
+    expect(toFlowNodes(level, board, null, 'tool:married')[0].data).toMatchObject({ highlighted: false });
   });
 });
 

@@ -23,6 +23,18 @@ describe('Board', () => {
     expect(screen.getByRole('button', { name: /Married/ })).toHaveAttribute('data-tutorial', 'tool:married');
   });
 
+  it('keeps the tutorial halo on a person after it becomes the pending selection', async () => {
+    const user = userEvent.setup();
+    useGameStore.getState().openLevel({ ...level, tutorial: [{ text: 'Click Ann', highlight: 'person:a', until: 'coupleCreated:a:b' }] });
+    render(<Board />);
+    const ann = screen.getByText('Ann').closest('.person-node') as HTMLElement;
+    expect(ann).toHaveClass('tutorial-highlight');
+    await user.click(screen.getByRole('button', { name: /Married/ }));
+    await user.click(screen.getByText('Ann'));
+    expect(ann).toHaveClass('is-selected');
+    expect(ann).toHaveClass('tutorial-highlight');
+  });
+
   it('shows birth and death years when present', () => {
     render(<Board />);
     expect(screen.getByText('1920 – 1988')).toBeInTheDocument();

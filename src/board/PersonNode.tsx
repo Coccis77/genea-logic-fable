@@ -13,7 +13,7 @@ export function PersonNode({ id, data }: NodeProps<PersonNodeType>) {
   const years = formatYears(data.born, data.died);
   return (
     <div
-      className={`person-node${data.selected ? ' is-selected' : ''}`}
+      className={`person-node${data.selected ? ' is-selected' : ''}${data.highlighted ? ' tutorial-highlight' : ''}`}
       style={{ width: PERSON_WIDTH, height: PERSON_HEIGHT }}
       data-tutorial={`person:${id}`}
     >

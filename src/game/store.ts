@@ -28,12 +28,15 @@ export interface GameState {
   completed: string[];
   hints: { showProgress: boolean; showMistakes: boolean };
   theme: ThemeId;
+  /** Bumped on every board pan/zoom so anchored overlays can re-position. */
+  viewportVersion: number;
 }
 
 export interface GameActions {
   openLevel(level: Level): void;
   leaveLevel(): void;
   tutorialNext(): void;
+  bumpViewport(): void;
   selectTool(tool: Tool): void;
   clickPerson(id: string): void;
   clickCouple(id: string): void;
@@ -69,6 +72,7 @@ export const initialGameState: GameState = {
   completed: saved.completed,
   hints: saved.hints,
   theme: saved.theme,
+  viewportVersion: 0,
 };
 
 export const selectBoard = (s: GameState): BoardState => s.history.present;
@@ -136,6 +140,8 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
       });
       settleTutorial();
     },
+
+    bumpViewport() { set({ viewportVersion: get().viewportVersion + 1 }); },
 
     tutorialNext() { emit('next'); },
     leaveLevel() {

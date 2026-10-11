@@ -3,11 +3,11 @@ import type { BoardState } from '../game/board';
 import type { Pending } from '../game/store';
 import type { CoupleType, Level } from '../levels/types';
 
-export type PersonNodeType = Node<{ name: string; selected: boolean; born?: number; died?: number }, 'person'>;
+export type PersonNodeType = Node<{ name: string; selected: boolean; highlighted: boolean; born?: number; died?: number }, 'person'>;
 export type CoupleNodeType = Node<{ coupleType: CoupleType; selected: boolean }, 'couple'>;
 export type ChildEdgeData = { coupleId: string; childId: string };
 
-export function toFlowNodes(level: Level, board: BoardState, pending: Pending): Node[] {
+export function toFlowNodes(level: Level, board: BoardState, pending: Pending, highlight: string | null = null): Node[] {
   const people: PersonNodeType[] = level.people.map((p) => ({
     id: p.id,
     type: 'person',
@@ -15,6 +15,7 @@ export function toFlowNodes(level: Level, board: BoardState, pending: Pending): 
     data: {
       name: p.name,
       selected: pending?.kind === 'person' && pending.id === p.id,
+      highlighted: highlight === `person:${p.id}`,
       ...(p.born !== undefined ? { born: p.born } : {}),
       ...(p.died !== undefined ? { died: p.died } : {}),
     },

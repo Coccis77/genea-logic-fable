@@ -275,6 +275,14 @@ describe('persistence', () => {
   });
 });
 
+describe('viewport', () => {
+  it('bumpViewport increments viewportVersion', () => {
+    const v = s().viewportVersion;
+    s().bumpViewport();
+    expect(s().viewportVersion).toBe(v + 1);
+  });
+});
+
 describe('tutorial and clues', () => {
   it('tutorialNext advances a "next" step', () => {
     s().openLevel({ ...level, tutorial: [{ text: 'hi', until: 'next' }] });

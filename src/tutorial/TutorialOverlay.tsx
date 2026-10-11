@@ -7,6 +7,7 @@ const BUBBLE_WIDTH = 300;
 export function TutorialOverlay() {
   const step = useGameStore(selectCurrentTutorialStep);
   const tutorialNext = useGameStore((s) => s.tutorialNext);
+  const viewportVersion = useGameStore((s) => s.viewportVersion);
   const [style, setStyle] = useState<CSSProperties | null>(null);
 
   useLayoutEffect(() => {
@@ -20,7 +21,9 @@ export function TutorialOverlay() {
       setStyle(null);
       return;
     }
-    target.classList.add('tutorial-highlight');
+    // Person nodes render their own halo from node data (React would overwrite a DOM-added class).
+    const ownsHalo = !step.highlight.startsWith('person:');
+    if (ownsHalo) target.classList.add('tutorial-highlight');
     const place = () => {
       const rect = target.getBoundingClientRect();
       const left = Math.min(Math.max(8, rect.left), window.innerWidth - BUBBLE_WIDTH - 8);
@@ -30,11 +33,11 @@ export function TutorialOverlay() {
     window.addEventListener('resize', place);
     window.addEventListener('scroll', place, true);
     return () => {
-      target.classList.remove('tutorial-highlight');
+      if (ownsHalo) target.classList.remove('tutorial-highlight');
       window.removeEventListener('resize', place);
       window.removeEventListener('scroll', place, true);
     };
-  }, [step]);
+  }, [step, viewportVersion]);
 
   if (!step) return null;
   const centred = !step.highlight || !style;
