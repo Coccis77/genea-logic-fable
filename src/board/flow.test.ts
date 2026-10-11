@@ -28,7 +28,7 @@ describe('toFlowEdges', () => {
     expect(edges[0]).toMatchObject({ source: 'a', sourceHandle: 'couple', target: 'c-a-b', targetHandle: 'in', type: 'straight' });
     expect(edges[2]).toMatchObject({
       source: 'c-a-b', sourceHandle: 'out', target: 'c', targetHandle: 'in', type: 'smoothstep',
-      markerEnd: { type: MarkerType.ArrowClosed }, data: { coupleId: 'c-a-b', childId: 'c' },
+      markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--link-child)' }, data: { coupleId: 'c-a-b', childId: 'c' },
     });
   });
 });

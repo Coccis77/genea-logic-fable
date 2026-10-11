@@ -23,6 +23,12 @@ describe('Board', () => {
     expect(screen.getByRole('button', { name: /Married/ })).toHaveAttribute('data-tutorial', 'tool:married');
   });
 
+  it('leaves the background pattern to the theme', () => {
+    const { container } = render(<Board />);
+    expect(container.querySelector('.react-flow__background')).toBeNull();
+    expect(container.querySelector('.react-flow__controls')).not.toBeNull();
+  });
+
   it('builds a couple and a child through toolbar + clicks', async () => {
     const user = userEvent.setup();
     render(<Board />);

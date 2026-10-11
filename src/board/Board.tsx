@@ -1,5 +1,5 @@
 import {
-  Background, Controls, ReactFlow, ReactFlowProvider, applyNodeChanges,
+  Controls, ReactFlow, ReactFlowProvider, applyNodeChanges,
   type Edge, type Node, type NodeChange, type NodeMouseHandler, type EdgeMouseHandler,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
@@ -83,10 +83,10 @@ function BoardCanvas() {
         elementsSelectable={false}
         edgesFocusable={false}
         deleteKeyCode={null}
+        zoomOnDoubleClick={false}
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <Background />
         <Controls showInteractive={false} />
       </ReactFlow>
     </div>

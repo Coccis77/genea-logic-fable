@@ -16,3 +16,6 @@
 .react-flow__edge.edge-child .react-flow__edge-path { stroke: var(--link-child); stroke-width: 2; }
 .react-flow__edge.edge-child .react-flow__edge-interaction { cursor: pointer; }
 .board.tool-erase .react-flow__edge.edge-child:hover .react-flow__edge-path { stroke-dasharray: 4; }
+.react-flow__controls button { background: var(--surface); color: var(--text); border-color: var(--surface-border); }
+.react-flow__controls button:hover { background: var(--panel); }
+.react-flow__controls button svg { fill: currentColor; }

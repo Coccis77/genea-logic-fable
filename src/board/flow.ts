@@ -33,9 +33,10 @@ export function toFlowEdges(board: BoardState): Edge[] {
       });
     }
     for (const child of c.children) {
+      // React Flow paints the marker colour through an inline style, so a theme variable resolves.
       edges.push({
         id: `child:${c.id}:${child}`, source: c.id, sourceHandle: 'out', target: child, targetHandle: 'in',
-        type: 'smoothstep', className: 'edge-child', markerEnd: { type: MarkerType.ArrowClosed },
+        type: 'smoothstep', className: 'edge-child', markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--link-child)' },
         data: { coupleId: c.id, childId: child } satisfies ChildEdgeData,
       });
     }
