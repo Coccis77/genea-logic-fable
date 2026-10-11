@@ -9,9 +9,15 @@ export class LevelLoadError extends Error {
   }
 }
 
+/** Public path of the levels folder, honouring Vite's `base` (e.g. `/repo/` on GitHub Pages). */
+export function levelsRoot(): string {
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base.endsWith('/') ? base : `${base}/`}levels`;
+}
+
 export function mediaUrl(levelId: string, src: string): string {
   if (/^https?:\/\//i.test(src)) return src;
-  return `/levels/${levelId}/${src}`;
+  return `${levelsRoot()}/${levelId}/${src}`;
 }
 
 async function fetchJson(url: string, what: string): Promise<unknown> {
@@ -37,14 +43,14 @@ async function fetchJson(url: string, what: string): Promise<unknown> {
 }
 
 export async function loadLevelIndex(): Promise<LevelIndexEntry[]> {
-  const raw = await fetchJson('/levels/index.json', 'level index');
+  const raw = await fetchJson(`${levelsRoot()}/index.json`, 'level index');
   const parsed = levelIndexSchema.safeParse(raw);
   if (!parsed.success) throw new LevelLoadError(`level index: ${parsed.error.issues[0].message}`);
   return parsed.data;
 }
 
 export async function loadLevel(id: string): Promise<Level> {
-  const raw = await fetchJson(`/levels/${id}/level.json`, `level "${id}"`);
+  const raw = await fetchJson(`${levelsRoot()}/${id}/level.json`, `level "${id}"`);
   try {
     return validateLevel(raw);
   } catch (error) {

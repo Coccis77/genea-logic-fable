@@ -25,6 +25,23 @@ describe('mediaUrl', () => {
   });
 });
 
+describe('base path', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('prefixes level URLs with the Vite base path when deployed under a sub-path', async () => {
+    vi.stubEnv('BASE_URL', '/genealogic/');
+    expect(mediaUrl('lvl', 'photo.jpg')).toBe('/genealogic/levels/lvl/photo.jpg');
+    vi.spyOn(globalThis, 'fetch').mockImplementation(() => okJson([{ id: 'tutorial', tutorial: true }]));
+    await loadLevelIndex();
+    expect(fetch).toHaveBeenCalledWith('/genealogic/levels/index.json');
+  });
+
+  it('tolerates a base path without a trailing slash', () => {
+    vi.stubEnv('BASE_URL', '/genealogic');
+    expect(mediaUrl('lvl', 'photo.jpg')).toBe('/genealogic/levels/lvl/photo.jpg');
+  });
+});
+
 describe('loadLevelIndex', () => {
   it('fetches and validates index.json', async () => {
     vi.spyOn(globalThis, 'fetch').mockImplementation(() => okJson([{ id: 'tutorial', tutorial: true }]));
