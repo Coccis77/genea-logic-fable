@@ -10,7 +10,7 @@
 .person-node.is-selected, .couple-node.is-selected .couple-dot { outline: 3px solid var(--highlight); outline-offset: 2px; }
 .couple-node { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
 .couple-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--link); border: 2px solid var(--surface-border); }
-.couple-label { font-family: var(--font); font-size: 11px; color: var(--surface); background: var(--text); padding: 1px 5px; border-radius: 3px; margin-top: 2px; white-space: nowrap; }
+.couple-label { font-family: var(--font); font-size: 11px; color: var(--label-text); background: var(--label-bg); padding: 1px 5px; border-radius: 3px; margin-top: 2px; white-space: nowrap; }
 .hidden-handle { opacity: 0; width: 1px; height: 1px; min-width: 0; min-height: 0; border: 0; pointer-events: none; }
 .react-flow__edge.edge-couple .react-flow__edge-path { stroke: var(--link); stroke-width: 2.5; }
 .react-flow__edge.edge-child .react-flow__edge-path { stroke: var(--link-child); stroke-width: 2; }

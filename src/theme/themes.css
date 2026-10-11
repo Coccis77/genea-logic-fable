@@ -12,6 +12,9 @@
   --link-child: #8e2b21;
   --highlight: #f1c40f;
   --panel: #efe4c9;
+  --popover: #fdf6e3;
+  --label-bg: #2b2118;
+  --label-text: #fdf6e3;
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 :root[data-theme='old-archive'] {
@@ -27,6 +30,9 @@
   --link-child: #7b1e2b;
   --highlight: #d4a017;
   --panel: #f1e7cf;
+  --popover: #fbf5e6;
+  --label-bg: #3b2a1a;
+  --label-text: #fbf5e6;
   --shadow: 0 1px 3px rgba(60, 40, 20, 0.3);
 }
 :root[data-theme='night-office'] {
@@ -43,6 +49,9 @@
   --link-child: #d79a16;
   --highlight: #f0b429;
   --panel: #27303d;
+  --popover: #2e3948;
+  --label-bg: #e8edf2;
+  --label-text: #2e3948;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 :root[data-theme='blueprint'] {
@@ -59,6 +68,9 @@
   --link-child: #19d3f5;
   --highlight: #19d3f5;
   --panel: #0a3277;
+  --popover: #0a3277;
+  --label-bg: #ffffff;
+  --label-text: #0b3d91;
   --shadow: none;
 }
 :root[data-theme='noir'] {
@@ -74,6 +86,9 @@
   --link-child: #b3001b;
   --highlight: #b3001b;
   --panel: #1c1c1c;
+  --popover: #f2f0ea;
+  --label-bg: #121212;
+  --label-text: #f2f0ea;
   --shadow: none;
 }
 :root[data-theme='night-office'], :root[data-theme='blueprint'], :root[data-theme='noir'] {
