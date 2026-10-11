@@ -1,0 +1,16 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); }
+.screen { height: 100%; display: flex; flex-direction: column; }
+.screen-centered { align-items: center; justify-content: center; gap: 12px; padding: 24px; background: var(--bg); background-image: var(--bg-pattern); background-size: 24px 24px; color: var(--panel-text); }
+.game-screen { overflow: hidden; }
+.game-body { flex: 1; display: flex; min-height: 0; }
+.menu-title { font-size: 42px; margin: 0; color: var(--panel-text); text-shadow: var(--shadow); }
+.menu-subtitle { margin: 0 0 16px; color: var(--panel-text); opacity: 0.85; }
+.level-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: min(420px, 90vw); }
+.level-button { width: 100%; display: flex; justify-content: space-between; font: inherit; font-size: 18px; background: var(--surface); color: var(--text); border: 2px solid var(--surface-border); border-radius: 6px; padding: 12px 16px; cursor: pointer; box-shadow: var(--shadow); }
+.level-button:disabled { opacity: 0.45; cursor: default; }
+.level-button-tutorial { background: var(--accent); color: #fff; border-color: var(--accent); }
+.level-button.is-done { border-color: var(--highlight); }
+.menu-theme { margin-top: 16px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
