@@ -2,13 +2,33 @@
   "id": "tutorial",
   "title": "The Dubois Family",
   "people": [
-    { "id": "marie", "name": "Marie Dubois" },
-    { "id": "paul", "name": "Paul Dubois" },
-    { "id": "lea", "name": "Léa Dubois" }
+    {
+      "id": "marie",
+      "name": "Marie Dubois"
+    },
+    {
+      "id": "paul",
+      "name": "Paul Dubois"
+    },
+    {
+      "id": "lea",
+      "name": "Léa Dubois",
+      "born": 1953
+    }
   ],
   "solution": {
     "couples": [
-      { "id": "c1", "type": "married", "members": ["marie", "paul"], "children": ["lea"] }
+      {
+        "id": "c1",
+        "type": "married",
+        "members": [
+          "marie",
+          "paul"
+        ],
+        "children": [
+          "lea"
+        ]
+      }
     ],
     "links": []
   },
@@ -27,11 +47,34 @@
     }
   ],
   "tutorial": [
-    { "text": "Welcome, detective. The names on the board belong to one family. Your job: link them into a family tree using the clues on the left.", "until": "next" },
-    { "text": "Start by opening the letter.", "highlight": "clue:letter", "until": "clueOpened:letter" },
-    { "text": "Marie calls Paul her husband. Select the Married tool.", "highlight": "tool:married", "until": "toolSelected:married" },
-    { "text": "Click Marie, then Paul. A dot appears between them: that is their couple.", "highlight": "person:marie", "until": "coupleCreated:marie:paul" },
-    { "text": "The letter mentions Léa as their daughter. Select the Child tool, click the dot, then click Léa.", "highlight": "tool:child", "until": "childLinked:lea" },
-    { "text": "When you think the tree is complete, press Check.", "highlight": "check", "until": "checked" }
+    {
+      "text": "Welcome, detective. The names on the board belong to one family. Your job: link them into a family tree using the clues on the left.",
+      "until": "next"
+    },
+    {
+      "text": "Start by opening the letter.",
+      "highlight": "clue:letter",
+      "until": "clueOpened:letter"
+    },
+    {
+      "text": "Marie calls Paul her husband. Select the Married tool.",
+      "highlight": "tool:married",
+      "until": "toolSelected:married"
+    },
+    {
+      "text": "Click Marie, then Paul. A dot appears between them: that is their couple.",
+      "highlight": "person:marie",
+      "until": "coupleCreated:marie:paul"
+    },
+    {
+      "text": "The letter mentions Léa as their daughter. Select the Child tool, click the dot, then click Léa.",
+      "highlight": "tool:child",
+      "until": "childLinked:lea"
+    },
+    {
+      "text": "When you think the tree is complete, press Check.",
+      "highlight": "check",
+      "until": "checked"
+    }
   ]
 }

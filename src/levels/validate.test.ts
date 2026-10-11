@@ -31,6 +31,17 @@ describe('validateLevel', () => {
     expect(level.solution.couples[0].members).toEqual(['a', 'b']);
   });
 
+  it('accepts optional born/died years and rejects died before born', () => {
+    const raw = base();
+    raw.people[0] = { id: 'a', name: 'A', born: 1920, died: 1988 } as typeof raw.people[0];
+    raw.people[1] = { id: 'b', name: 'B', born: 1925 } as typeof raw.people[1];
+    expect(validateLevel(raw).people[0]).toEqual({ id: 'a', name: 'A', born: 1920, died: 1988 });
+    raw.people[0] = { id: 'a', name: 'A', born: 1990, died: 1988 } as typeof raw.people[0];
+    expectRejects(raw, 'died before born');
+    raw.people[0] = { id: 'a', name: 'A', born: 1920.5 } as typeof raw.people[0];
+    expectRejects(raw, 'born');
+  });
+
   it('rejects a schema violation', () => {
     const raw = base();
     raw.solution.couples[0].type = 'engaged';

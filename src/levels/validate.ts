@@ -34,6 +34,12 @@ export function validateLevel(raw: unknown): Level {
   checkUnique(level.solution.couples, 'couple');
   checkUnique(level.clues, 'clue');
 
+  for (const person of level.people) {
+    if (person.born !== undefined && person.died !== undefined && person.died < person.born) {
+      fail(`person "${person.id}": died before born`);
+    }
+  }
+
   const people = new Set(level.people.map((p) => p.id));
   const pairs = new Set<string>();
   const childOf = new Map<string, string>();

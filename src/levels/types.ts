@@ -4,6 +4,8 @@ export const COUPLE_TYPES: CoupleType[] = ['married', 'divorced', 'partners'];
 export interface Person {
   id: string;
   name: string;
+  born?: number;
+  died?: number;
 }
 
 export interface Couple {

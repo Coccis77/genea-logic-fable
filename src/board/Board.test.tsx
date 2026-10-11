@@ -6,7 +6,7 @@ import { Board } from './Board';
 
 const level: Level = {
   id: 'l', title: 't',
-  people: [{ id: 'a', name: 'Ann' }, { id: 'b', name: 'Bob' }, { id: 'c', name: 'Cy' }],
+  people: [{ id: 'a', name: 'Ann', born: 1920, died: 1988 }, { id: 'b', name: 'Bob', born: 1925 }, { id: 'c', name: 'Cy', died: 1999 }],
   solution: { couples: [], links: [] }, clues: [],
 };
 
@@ -21,6 +21,13 @@ describe('Board', () => {
     expect(screen.getByText('Ann')).toBeInTheDocument();
     expect(screen.getByText('Cy')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Married/ })).toHaveAttribute('data-tutorial', 'tool:married');
+  });
+
+  it('shows birth and death years when present', () => {
+    render(<Board />);
+    expect(screen.getByText('1920 – 1988')).toBeInTheDocument();
+    expect(screen.getByText('b. 1925')).toBeInTheDocument();
+    expect(screen.getByText('d. 1999')).toBeInTheDocument();
   });
 
   it('leaves the background pattern to the theme', () => {

@@ -7,7 +7,7 @@ export interface BoardState {
 }
 
 export const PERSON_WIDTH = 160;
-export const PERSON_HEIGHT = 48;
+export const PERSON_HEIGHT = 64;
 const DOT_SIZE = 12;
 const CELL_W = 220;
 const CELL_H = 140;

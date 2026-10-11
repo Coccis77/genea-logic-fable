@@ -2,24 +2,104 @@
   "id": "level-1",
   "title": "The Marchetti Estate",
   "people": [
-    { "id": "enzo", "name": "Enzo Marchetti" },
-    { "id": "clara", "name": "Clara Marchetti" },
-    { "id": "rosa", "name": "Rosa Bellini" },
-    { "id": "luca", "name": "Luca Marchetti" },
-    { "id": "sofia", "name": "Sofia Marchetti" },
-    { "id": "marco", "name": "Marco Vitale" },
-    { "id": "elena", "name": "Elena Vitale" },
-    { "id": "giulia", "name": "Giulia Marchetti" },
-    { "id": "tommaso", "name": "Tommaso Ricci" },
-    { "id": "nina", "name": "Nina Ricci" }
+    {
+      "id": "enzo",
+      "name": "Enzo Marchetti",
+      "born": 1948,
+      "died": 2024
+    },
+    {
+      "id": "clara",
+      "name": "Clara Marchetti"
+    },
+    {
+      "id": "rosa",
+      "name": "Rosa Bellini"
+    },
+    {
+      "id": "luca",
+      "name": "Luca Marchetti"
+    },
+    {
+      "id": "sofia",
+      "name": "Sofia Marchetti"
+    },
+    {
+      "id": "marco",
+      "name": "Marco Vitale"
+    },
+    {
+      "id": "elena",
+      "name": "Elena Vitale",
+      "born": 2000
+    },
+    {
+      "id": "giulia",
+      "name": "Giulia Marchetti"
+    },
+    {
+      "id": "tommaso",
+      "name": "Tommaso Ricci"
+    },
+    {
+      "id": "nina",
+      "name": "Nina Ricci"
+    }
   ],
   "solution": {
     "couples": [
-      { "id": "c1", "type": "divorced", "members": ["enzo", "clara"], "children": ["luca", "sofia"] },
-      { "id": "c2", "type": "married", "members": ["enzo", "rosa"], "children": ["giulia"] },
-      { "id": "c3", "type": "married", "members": ["sofia", "marco"], "children": ["elena"] },
-      { "id": "c4", "type": "partners", "members": ["luca", "nina"], "children": [] },
-      { "id": "c5", "type": "divorced", "members": ["nina", "tommaso"], "children": [] }
+      {
+        "id": "c1",
+        "type": "divorced",
+        "members": [
+          "enzo",
+          "clara"
+        ],
+        "children": [
+          "luca",
+          "sofia"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "married",
+        "members": [
+          "enzo",
+          "rosa"
+        ],
+        "children": [
+          "giulia"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "married",
+        "members": [
+          "sofia",
+          "marco"
+        ],
+        "children": [
+          "elena"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "partners",
+        "members": [
+          "luca",
+          "nina"
+        ],
+        "children": []
+      },
+      {
+        "id": "c5",
+        "type": "divorced",
+        "members": [
+          "nina",
+          "tommaso"
+        ],
+        "children": []
+      }
     ],
     "links": []
   },

@@ -72,7 +72,7 @@ Target user: the author (level designer) and the players they share the game wit
 
 Rules:
 
-- `people[]`: `id`, `name` only. No gender or role; everything needed to deduce is in the clues.
+- `people[]`: `id`, `name`, optional `born` and `died` (integer years, `died >= born`). Years, when present, are always shown on the person's card as `1920 – 1988`, `b. 1920` or `d. 1988`. No gender or role; everything else needed to deduce is in the clues.
 - `solution.couples[]`: `id`, `type` ∈ `married | divorced | partners`, `members` (exactly two ids, order irrelevant), `children` (list of ids, may be empty).
 - `solution.links`: must be an empty array in phase 1. The schema accepts the key so phase 2 can add `{ "type": "killed", "from", "to" }` without a format migration.
 - `clues[]`: all have `id`, `kind`, `title`. Per kind:

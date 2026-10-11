@@ -1,6 +1,6 @@
 import {
   addChild, canAddChild, canCreateCouple, coupleId, createCouple, emptyBoard, findCouple,
-  initialLayout, moveNode, removeChild, removeCouple, retypeCouple, type BoardState,
+  initialLayout, moveNode, PERSON_HEIGHT, removeChild, removeCouple, retypeCouple, type BoardState,
 } from './board';
 
 const people = [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }, { id: 'c', name: 'C' }, { id: 'd', name: 'D' }];
@@ -20,7 +20,7 @@ describe('createCouple', () => {
   it('creates a couple with a deterministic id and a dot position', () => {
     const board = createCouple(fresh(), 'b', 'a', 'married');
     expect(board.couples).toEqual([{ id: 'c-a-b', type: 'married', members: ['b', 'a'], children: [] }]);
-    expect(board.positions['c-a-b']).toEqual({ x: (40 + 260) / 2 + 80 - 6, y: 40 + 48 + 60 });
+    expect(board.positions['c-a-b']).toEqual({ x: (40 + 260) / 2 + 80 - 6, y: 40 + PERSON_HEIGHT + 60 });
     expect(coupleId('b', 'a')).toBe('c-a-b');
   });
 

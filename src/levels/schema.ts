@@ -28,7 +28,7 @@ export const tutorialStepSchema = z.object({
 export const levelSchema = z.object({
   id,
   title: z.string().min(1),
-  people: z.array(z.object({ id, name: z.string().min(1) })).min(1),
+  people: z.array(z.object({ id, name: z.string().min(1), born: z.number().int().optional(), died: z.number().int().optional() })).min(1),
   solution: z.object({
     couples: z.array(coupleSchema),
     links: z.array(z.never()).max(0, { message: 'links must be empty in phase 1' }),

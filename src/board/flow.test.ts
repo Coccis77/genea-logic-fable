@@ -6,7 +6,7 @@ import { mergeFlowNodes, toFlowEdges, toFlowNodes } from './flow';
 
 const level: Level = {
   id: 'l', title: 't',
-  people: [{ id: 'a', name: 'Ann' }, { id: 'b', name: 'Bob' }, { id: 'c', name: 'Cy' }],
+  people: [{ id: 'a', name: 'Ann', born: 1920, died: 1988 }, { id: 'b', name: 'Bob' }, { id: 'c', name: 'Cy', born: 1950 }],
   solution: { couples: [], links: [] }, clues: [],
 };
 let board = createCouple({ positions: initialLayout(level.people), couples: [] }, 'a', 'b', 'married');
@@ -16,7 +16,9 @@ describe('toFlowNodes', () => {
   it('maps people and couples with selection flags', () => {
     const nodes = toFlowNodes(level, board, { kind: 'couple', id: 'c-a-b' });
     expect(nodes.map((n) => n.id)).toEqual(['a', 'b', 'c', 'c-a-b']);
-    expect(nodes[0]).toMatchObject({ type: 'person', position: { x: 40, y: 40 }, data: { name: 'Ann', selected: false } });
+    expect(nodes[0]).toMatchObject({ type: 'person', position: { x: 40, y: 40 }, data: { name: 'Ann', selected: false, born: 1920, died: 1988 } });
+    expect(nodes[1].data).toEqual({ name: 'Bob', selected: false });
+    expect(nodes[2].data).toMatchObject({ born: 1950 });
     expect(nodes[3]).toMatchObject({ type: 'couple', data: { coupleType: 'married', selected: true } });
   });
 });
