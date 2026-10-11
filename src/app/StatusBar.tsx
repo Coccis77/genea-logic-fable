@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { selectScore, useGameStore } from '../game/store';
 import { ConfirmDialog } from './ConfirmDialog';
 import { ThemeSelect } from './ThemeSelect';
+import { useDismiss } from './useDismiss';
 import './status.css';
 
 export function StatusBar({ onNext, hasNext }: { onNext: () => void; hasNext: boolean }) {
@@ -15,6 +16,9 @@ export function StatusBar({ onNext, hasNext }: { onNext: () => void; hasNext: bo
   const { check, resetBoard, setHint, leaveLevel } = useGameStore.getState();
   const [hintsOpen, setHintsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const hintsRef = useRef<HTMLDivElement>(null);
+  const closeHints = useCallback(() => setHintsOpen(false), []);
+  useDismiss(closeHints, { active: hintsOpen, ref: hintsRef });
 
   if (!level || !score) return null;
   return (
@@ -35,7 +39,7 @@ export function StatusBar({ onNext, hasNext }: { onNext: () => void; hasNext: bo
         </span>
       )}
       <div className="status-actions">
-        <div className="hints">
+        <div className="hints" ref={hintsRef}>
           <button type="button" className="tool-button" aria-expanded={hintsOpen} onClick={() => setHintsOpen((o) => !o)}>Hints</button>
           {hintsOpen && (
             <div className="hints-menu">

@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { initialGameState, selectBoard, useGameStore } from '../game/store';
 import type { Level } from '../levels/types';
@@ -61,6 +61,29 @@ describe('StatusBar', () => {
     await user.click(screen.getByRole('button', { name: 'Reset board' }));
     await user.click(screen.getByRole('button', { name: 'Confirm' }));
     expect(selectBoard(s()).couples).toHaveLength(0);
+  });
+
+  it('Escape cancels the reset confirmation', async () => {
+    const user = userEvent.setup();
+    render(<StatusBar onNext={vi.fn()} hasNext />);
+    await user.click(screen.getByRole('button', { name: 'Reset board' }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('closes the hints menu on Escape and on an outside click', async () => {
+    const user = userEvent.setup();
+    render(<><p>outside</p><StatusBar onNext={vi.fn()} hasNext /></>);
+    await user.click(screen.getByRole('button', { name: 'Hints' }));
+    expect(screen.getByRole('checkbox', { name: 'Show progress' })).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('checkbox', { name: 'Show progress' })).toBeNull();
+    await user.click(screen.getByRole('button', { name: 'Hints' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Show progress' })); // inside: stays open
+    expect(screen.getByRole('checkbox', { name: 'Show progress' })).toBeChecked();
+    await user.click(screen.getByText('outside'));
+    expect(screen.queryByRole('checkbox', { name: 'Show progress' })).toBeNull();
   });
 
   it('theme select changes the theme', async () => {

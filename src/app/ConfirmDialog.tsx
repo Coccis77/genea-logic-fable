@@ -1,4 +1,7 @@
+import { useDismiss } from './useDismiss';
+
 export function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onConfirm: () => void; onCancel: () => void }) {
+  useDismiss(onCancel, { active: true });
   return (
     <div className="overlay">
       <div className="dialog" role="dialog" aria-label={message}>
