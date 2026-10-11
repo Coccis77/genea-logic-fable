@@ -1,0 +1,4 @@
+[
+  { "id": "tutorial", "tutorial": true },
+  { "id": "level-1", "tutorial": false }
+]
