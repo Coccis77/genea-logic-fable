@@ -117,7 +117,7 @@ Single active tool. Icons at the top of the board, keyboard shortcuts in parenth
 | Tool | Behaviour |
 |---|---|
 | Select (V) | Default. Drag nodes, pan, zoom. The only mode in which nodes are draggable (`nodesDraggable` is false otherwise). |
-| Married (M), Divorced (D), Partners (P) | Click person A (highlighted), then person B → creates the couple dot and its two edges. Clicking A again or `Esc` cancels. Clicking an existing couple dot changes its type to the tool's type, keeping its children. |
+| Married (M), Divorced (D), Partners (P) | Click person A (highlighted), then person B → creates the couple dot and its two edges. Clicking A again or `Esc` cancels. Clicking an existing couple dot — or clicking its two members again — changes its type to the tool's type, keeping its children. |
 | Child (C) | Click a couple dot (highlighted), then a person → creates a `child` edge. The dot stays selected so several children can be added in a row. `Esc` or clicking empty space exits. |
 | Erase (E) | Click a couple dot → removes the couple and its child edges. Click a child edge → removes it. |
 | Undo (⌘/Ctrl+Z), Redo (⌘/Ctrl+Shift+Z) | See §6. |

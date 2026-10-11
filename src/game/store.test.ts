@@ -77,13 +77,32 @@ describe('couple tools', () => {
     expect(s().pending).toBeNull();
   });
 
-  it('an invalid second click changes nothing and keeps pending', () => {
+  it('clicking an existing pair with another couple tool retypes it and keeps children', () => {
     buildFamily();
     s().selectTool('divorced');
-    s().clickPerson('a');
-    s().clickPerson('b'); // pair already exists
+    s().clickPerson('b');
+    s().clickPerson('a'); // pair already exists, in the other order
     expect(board().couples).toHaveLength(1);
-    expect(s().pending).toEqual({ kind: 'person', id: 'a' });
+    expect(board().couples[0]).toMatchObject({ id: 'c-a-b', type: 'divorced', children: ['c'] });
+    expect(s().pending).toBeNull();
+  });
+
+  it('clicking an existing pair with the same couple tool pushes no history', () => {
+    buildFamily();
+    const past = s().history.past.length;
+    s().selectTool('married');
+    s().clickPerson('a');
+    s().clickPerson('b');
+    expect(s().history.past.length).toBe(past);
+    expect(s().pending).toBeNull();
+  });
+
+  it('a self-click on the pending person cancels instead of creating', () => {
+    s().selectTool('married');
+    s().clickPerson('a');
+    s().clickPerson('a');
+    expect(board().couples).toHaveLength(0);
+    expect(s().pending).toBeNull();
   });
 
   it('clicking a dot with a couple tool retypes it and keeps children', () => {

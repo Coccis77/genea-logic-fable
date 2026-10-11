@@ -6,7 +6,7 @@ import { scoreBoard, type Score } from '../scoring/score';
 import { applyTheme, type ThemeId } from '../theme/themes';
 import { advance, settle } from '../tutorial/engine';
 import {
-  addChild, canAddChild, canCreateCouple, createCouple, emptyBoard, initialLayout,
+  addChild, canAddChild, canCreateCouple, createCouple, emptyBoard, findCouple, initialLayout,
   moveNode as moveNodeOnBoard, removeChild, removeCouple, retypeCouple, type BoardState, type Position,
 } from './board';
 import { canRedo, canUndo, createHistory, push, redo as redoHistory, undo as undoHistory, type History } from './history';
@@ -158,8 +158,15 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
           set({ pending: null });
           return;
         }
-        if (!canCreateCouple(board, s.pending.id, id)) return;
         const a = s.pending.id;
+        const existing = findCouple(board, a, id);
+        if (existing) {
+          // Re-linking an existing pair with a couple tool changes its type (children kept).
+          commit(retypeCouple(board, existing.id, s.tool));
+          set({ pending: null });
+          return;
+        }
+        if (!canCreateCouple(board, a, id)) return;
         commit(createCouple(board, a, id, s.tool));
         set({ pending: null });
         emit(`coupleCreated:${a}:${id}`);
