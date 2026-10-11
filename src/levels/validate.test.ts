@@ -92,4 +92,28 @@ describe('validateLevel', () => {
     const raw2 = { ...base(), tutorial: [{ text: 'x', until: 'toolSelected:hammer' }] };
     expectRejects(raw2, 'until "toolSelected:hammer"');
   });
+
+  it('accepts a tutorial using every valid target and event form', () => {
+    const raw = {
+      ...base(),
+      tutorial: [
+        { text: 'a', until: 'next' },
+        { text: 'b', highlight: 'check', until: 'checked' },
+        { text: 'c', highlight: 'clue:k1', until: 'clueOpened:k1' },
+        { text: 'd', highlight: 'tool:married', until: 'toolSelected:married' },
+        { text: 'e', highlight: 'person:a', until: 'coupleCreated:a:b' },
+        { text: 'f', until: 'childLinked:c' },
+      ],
+    };
+    expect(validateLevel(raw).tutorial).toHaveLength(6);
+  });
+
+  it('rejects malformed tutorial targets with extra segments or missing arguments', () => {
+    const step = (s: { highlight?: string; until: string }) => ({ ...base(), tutorial: [{ text: 'x', ...s }] });
+    expectRejects(step({ highlight: 'clue:k1:junk', until: 'next' }), 'highlight "clue:k1:junk"');
+    expectRejects(step({ highlight: '', until: 'next' }), 'highlight ""');
+    expectRejects(step({ until: 'clueOpened:k1:junk' }), 'until "clueOpened:k1:junk"');
+    expectRejects(step({ until: 'childLinked:a:b' }), 'until "childLinked:a:b"');
+    expectRejects(step({ until: 'coupleCreated:a' }), 'until "coupleCreated:a"');
+  });
 });

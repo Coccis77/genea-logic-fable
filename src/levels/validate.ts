@@ -57,22 +57,22 @@ export function validateLevel(raw: unknown): Level {
   const clueIds = new Set(level.clues.map((c) => c.id));
   const tools = new Set<string>(TOOL_IDS);
   for (const step of level.tutorial ?? []) {
-    if (step.highlight) {
-      const [kind, target] = step.highlight.split(':');
+    if (step.highlight !== undefined) {
+      const [kind, target, ...rest] = step.highlight.split(':');
       const ok =
         step.highlight === 'check' ||
-        (kind === 'clue' && clueIds.has(target)) ||
-        (kind === 'tool' && tools.has(target)) ||
-        (kind === 'person' && people.has(target));
+        (rest.length === 0 && kind === 'clue' && clueIds.has(target)) ||
+        (rest.length === 0 && kind === 'tool' && tools.has(target)) ||
+        (rest.length === 0 && kind === 'person' && people.has(target));
       if (!ok) fail(`tutorial: unknown highlight "${step.highlight}"`);
     }
     const [event, ...args] = step.until.split(':');
     const ok =
       (event === 'next' || event === 'checked') && args.length === 0 ||
-      (event === 'clueOpened' && clueIds.has(args[0])) ||
-      (event === 'toolSelected' && tools.has(args[0])) ||
+      (event === 'clueOpened' && args.length === 1 && clueIds.has(args[0])) ||
+      (event === 'toolSelected' && args.length === 1 && tools.has(args[0])) ||
       (event === 'coupleCreated' && args.length === 2 && args.every((p) => people.has(p))) ||
-      (event === 'childLinked' && people.has(args[0]));
+      (event === 'childLinked' && args.length === 1 && people.has(args[0]));
     if (!ok) fail(`tutorial: unknown until "${step.until}"`);
   }
 
