@@ -34,10 +34,11 @@ export const defaultSave = (): SaveData => ({
   theme: DEFAULT_THEME,
 });
 
-export function loadSave(storage: Storage = localStorage): SaveData {
+// `storage` is resolved inside the try: reading window.localStorage throws when site data is blocked.
+export function loadSave(storage?: Storage): SaveData {
   let raw: unknown;
   try {
-    const text = storage.getItem(SAVE_KEY);
+    const text = (storage ?? localStorage).getItem(SAVE_KEY);
     if (!text) return defaultSave();
     raw = JSON.parse(text);
   } catch {
@@ -49,6 +50,11 @@ export function loadSave(storage: Storage = localStorage): SaveData {
   return { ...rest, theme: isThemeId(theme) ? theme : DEFAULT_THEME } as SaveData;
 }
 
-export function writeSave(data: SaveData, storage: Storage = localStorage): void {
-  storage.setItem(SAVE_KEY, JSON.stringify(data));
+/** Best-effort: storage that is blocked, full or missing is ignored. */
+export function writeSave(data: SaveData, storage?: Storage): void {
+  try {
+    (storage ?? localStorage).setItem(SAVE_KEY, JSON.stringify(data));
+  } catch {
+    /* storage unavailable */
+  }
 }

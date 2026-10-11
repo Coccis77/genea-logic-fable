@@ -37,4 +37,17 @@ describe('save', () => {
     localStorage.setItem(SAVE_KEY, JSON.stringify({ ...defaultSave(), theme: 'rainbow' }));
     expect(loadSave().theme).toBe('detective-board');
   });
+
+  it('survives storage that throws on access (site data blocked)', () => {
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage');
+    Object.defineProperty(window, 'localStorage', { configurable: true, get() { throw new Error('blocked'); } });
+    try {
+      expect(loadSave()).toEqual(defaultSave());
+      expect(() => writeSave(defaultSave())).not.toThrow();
+    } finally {
+      if (original) Object.defineProperty(window, 'localStorage', original);
+      else delete (window as { localStorage?: Storage }).localStorage;
+    }
+    expect(() => localStorage.getItem(SAVE_KEY)).not.toThrow();
+  });
 });
