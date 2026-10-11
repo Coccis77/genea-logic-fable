@@ -38,6 +38,7 @@
   --text: #e8edf2;
   --text-muted: #9aa8b8;
   --accent: #f0b429;
+  --accent-text: #1f2733;
   --link: #f0b429;
   --link-child: #d79a16;
   --highlight: #f0b429;
@@ -53,6 +54,7 @@
   --text: #ffffff;
   --text-muted: #bcd3ff;
   --accent: #19d3f5;
+  --accent-text: #0b3d91;
   --link: #ffffff;
   --link-child: #19d3f5;
   --highlight: #19d3f5;
