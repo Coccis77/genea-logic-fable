@@ -4,6 +4,7 @@
 .progress { width: 160px; height: 10px; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 5px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); transition: width 0.2s; }
 .mistakes, .check-message { font-size: 14px; }
+.complete-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: bold; color: var(--accent); }
 .hints { position: relative; }
 .hints-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: var(--popover); color: var(--text); border: 1px solid var(--surface-border); border-radius: 4px; padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; z-index: 20; white-space: nowrap; box-shadow: var(--shadow); }
 .theme-select { font: inherit; font-family: var(--font); background: var(--popover); color: var(--text); border: 1px solid var(--surface-border); border-radius: 4px; padding: 4px 6px; }

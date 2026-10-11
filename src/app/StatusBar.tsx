@@ -5,11 +5,13 @@ import { ConfirmDialog } from './ConfirmDialog';
 import { ThemeSelect } from './ThemeSelect';
 import './status.css';
 
-export function StatusBar() {
+export function StatusBar({ onNext, hasNext }: { onNext: () => void; hasNext: boolean }) {
   const level = useGameStore((s) => s.level);
   const score = useGameStore(useShallow(selectScore));
   const hints = useGameStore((s) => s.hints);
   const lastCheck = useGameStore((s) => s.lastCheck);
+  const victory = useGameStore((s) => s.victory);
+  const isCompleted = useGameStore((s) => (s.level ? s.completed.includes(s.level.id) : false));
   const { check, resetBoard, setHint, leaveLevel } = useGameStore.getState();
   const [hintsOpen, setHintsOpen] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -26,6 +28,12 @@ export function StatusBar() {
       )}
       {hints.showMistakes && <span className="mistakes">Mistakes: {score.mistakes}</span>}
       {lastCheck === 'incomplete' && <span className="check-message">Not quite yet.</span>}
+      {isCompleted && !victory && (
+        <span className="complete-badge">
+          Level complete
+          <button type="button" className="tool-button tool-button-accent" disabled={!hasNext} onClick={onNext}>Next level</button>
+        </span>
+      )}
       <div className="status-actions">
         <div className="hints">
           <button type="button" className="tool-button" aria-expanded={hintsOpen} onClick={() => setHintsOpen((o) => !o)}>Hints</button>

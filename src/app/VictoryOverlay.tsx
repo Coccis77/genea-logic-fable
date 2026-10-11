@@ -4,6 +4,7 @@ export function VictoryOverlay({ onNext, hasNext }: { onNext: () => void; hasNex
   const victory = useGameStore((s) => s.victory);
   const level = useGameStore((s) => s.level);
   const leaveLevel = useGameStore((s) => s.leaveLevel);
+  const dismissVictory = useGameStore((s) => s.dismissVictory);
   if (!victory || !level) return null;
   return (
     <div className="overlay">
@@ -12,6 +13,7 @@ export function VictoryOverlay({ onNext, hasNext }: { onNext: () => void; hasNex
         <p>You solved <strong>{level.title}</strong>.</p>
         <div className="dialog-actions">
           <button type="button" className="tool-button" onClick={leaveLevel}>Menu</button>
+          <button type="button" className="tool-button" onClick={dismissVictory}>View tree</button>
           <button type="button" className="tool-button tool-button-accent" disabled={!hasNext} onClick={onNext}>Next level</button>
         </div>
       </div>

@@ -236,7 +236,7 @@ Five colour themes, selected from the menu and from the status bar, persisted in
 
 1. **Menu**: game title, then the level list. Tutorial first, distinct colour, always playable. Then the levels: level 1 unlocked from the start, each next level unlocked when the previous one is completed. Completed levels are ticked and replayable; locked levels are greyed out.
 2. **Game**: clue panel + board + status bar, **Menu** button.
-3. **Victory**: overlay on the game with **Next level** and **Menu**.
+3. **Victory**: overlay on the game with **Next level**, **Menu** and **View tree**. View tree closes the overlay and leaves the player on the still-editable board; the status bar then shows a **Level complete** badge with its own **Next level** button (disabled on the last level). Pressing Check again on a correct tree re-opens the overlay.
 
 ## 11. Project structure
 

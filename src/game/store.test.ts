@@ -231,6 +231,17 @@ describe('check and scoring', () => {
     expect(s().victory).toBe(false);
   });
 
+  it('dismissVictory hides the overlay but keeps the level completed', () => {
+    buildFamily();
+    s().check();
+    expect(s().victory).toBe(true);
+    s().dismissVictory();
+    expect(s().victory).toBe(false);
+    expect(s().completed).toEqual(['lvl']);
+    s().check();
+    expect(s().victory).toBe(true);
+  });
+
   it('complete check sets victory and persists completion', () => {
     buildFamily();
     s().check();

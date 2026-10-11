@@ -21,7 +21,7 @@ beforeEach(() => {
 
 describe('StatusBar', () => {
   it('shows the title and hides hints by default', () => {
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     expect(screen.getByText('The Test Family')).toBeInTheDocument();
     expect(screen.queryByRole('progressbar')).toBeNull();
     expect(screen.queryByText(/Mistakes/)).toBeNull();
@@ -29,7 +29,7 @@ describe('StatusBar', () => {
 
   it('check shows a neutral message with no numbers when incomplete', async () => {
     const user = userEvent.setup();
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     await user.click(screen.getByRole('button', { name: 'Check' }));
     expect(screen.getByText('Not quite yet.')).toBeInTheDocument();
     expect(screen.queryByText(/\d/)).toBeNull();
@@ -40,7 +40,7 @@ describe('StatusBar', () => {
     s().selectTool('divorced');
     s().clickPerson('a');
     s().clickPerson('b');
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     await user.click(screen.getByRole('button', { name: 'Hints' }));
     await user.click(screen.getByRole('checkbox', { name: 'Show progress' }));
     await user.click(screen.getByRole('checkbox', { name: 'Show mistakes' }));
@@ -54,7 +54,7 @@ describe('StatusBar', () => {
     s().selectTool('married');
     s().clickPerson('a');
     s().clickPerson('b');
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     await user.click(screen.getByRole('button', { name: 'Reset board' }));
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
     expect(selectBoard(s()).couples).toHaveLength(1);
@@ -65,14 +65,14 @@ describe('StatusBar', () => {
 
   it('theme select changes the theme', async () => {
     const user = userEvent.setup();
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     await user.selectOptions(screen.getByLabelText('Theme'), 'noir');
     expect(s().theme).toBe('noir');
   });
 
   it('menu button leaves the level', async () => {
     const user = userEvent.setup();
-    render(<StatusBar />);
+    render(<StatusBar onNext={vi.fn()} hasNext />);
     await user.click(screen.getByRole('button', { name: 'Menu' }));
     expect(s().screen).toBe('menu');
   });
@@ -95,5 +95,51 @@ describe('VictoryOverlay', () => {
     expect(onNext).toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: 'Menu' }));
     expect(s().screen).toBe('menu');
+  });
+
+  it('View tree closes the overlay and leaves the board usable', async () => {
+    const user = userEvent.setup();
+    render(<VictoryOverlay onNext={vi.fn()} hasNext />);
+    act(() => {
+      s().selectTool('married');
+      s().clickPerson('a');
+      s().clickPerson('b');
+      s().check();
+    });
+    await user.click(screen.getByRole('button', { name: 'View tree' }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(s().screen).toBe('game');
+    expect(s().completed).toEqual(['lvl']);
+  });
+});
+
+describe('StatusBar after victory', () => {
+  it('shows a Level complete badge with a Next level button once the level is completed', async () => {
+    const user = userEvent.setup();
+    const onNext = vi.fn();
+    render(<StatusBar onNext={onNext} hasNext />);
+    expect(screen.queryByText('Level complete')).toBeNull();
+    act(() => {
+      s().selectTool('married');
+      s().clickPerson('a');
+      s().clickPerson('b');
+      s().check();
+      s().dismissVictory();
+    });
+    expect(screen.getByText('Level complete')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Next level' }));
+    expect(onNext).toHaveBeenCalled();
+  });
+
+  it('disables Next level on the last level', () => {
+    act(() => {
+      s().selectTool('married');
+      s().clickPerson('a');
+      s().clickPerson('b');
+      s().check();
+      s().dismissVictory();
+    });
+    render(<StatusBar onNext={vi.fn()} hasNext={false} />);
+    expect(screen.getByRole('button', { name: 'Next level' })).toBeDisabled();
   });
 });

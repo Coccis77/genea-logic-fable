@@ -7,7 +7,7 @@ import { VictoryOverlay } from './VictoryOverlay';
 export function GameScreen({ onNext, hasNext }: { onNext: () => void; hasNext: boolean }) {
   return (
     <div className="screen game-screen">
-      <StatusBar />
+      <StatusBar onNext={onNext} hasNext={hasNext} />
       <div className="game-body">
         <CluePanel />
         <Board />

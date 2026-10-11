@@ -45,6 +45,7 @@ export interface GameActions {
   redo(): void;
   resetBoard(): void;
   check(): void;
+  dismissVictory(): void;
   openClue(id: string): void;
   closeClue(): void;
   setHint(key: 'showProgress' | 'showMistakes', value: boolean): void;
@@ -244,6 +245,8 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
         set({ lastCheck: 'incomplete' });
       }
     },
+
+    dismissVictory() { set({ victory: false }); },
 
     openClue(id) {
       set({ openClueId: id });
