@@ -4,7 +4,7 @@ import { TOOL_IDS } from '../levels/validate';
 import { loadSave, writeSave } from '../save/save';
 import { scoreBoard, type Score } from '../scoring/score';
 import { applyTheme, type ThemeId } from '../theme/themes';
-import { advance } from '../tutorial/engine';
+import { advance, settle } from '../tutorial/engine';
 import {
   addChild, canAddChild, canCreateCouple, createCouple, emptyBoard, initialLayout,
   moveNode as moveNodeOnBoard, removeChild, removeCouple, retypeCouple, type BoardState, type Position,
@@ -101,10 +101,19 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
     }
   };
 
+  // Skips tutorial steps the board already satisfies (e.g. a restored board). Forward only.
+  const settleTutorial = () => {
+    const s = get();
+    if (!s.level?.tutorial) return;
+    const step = settle(s.level.tutorial, s.tutorialStep, s.history.present);
+    if (step !== s.tutorialStep) set({ tutorialStep: step });
+  };
+
   const emit = (event: string) => {
     const s = get();
     if (!s.level?.tutorial) return;
     set({ tutorialStep: advance(s.level.tutorial, s.tutorialStep, event) });
+    settleTutorial();
   };
 
   const commit = (next: BoardState) => {
@@ -112,6 +121,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
     if (next === s.history.present) return;
     set({ history: push(s.history, next), lastCheck: 'none' });
     persist();
+    settleTutorial();
   };
 
   return {
@@ -123,6 +133,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
         screen: 'game', level, history: createHistory(board), tool: 'select', pending: null,
         openClueId: null, tutorialStep: 0, victory: false, lastCheck: 'none',
       });
+      settleTutorial();
     },
 
     tutorialNext() { emit('next'); },
@@ -194,6 +205,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
       if (!canUndo(s.history)) return;
       set({ history: undoHistory(s.history), pending: null, lastCheck: 'none', victory: false });
       persist();
+      settleTutorial();
     },
 
     redo() {
@@ -201,6 +213,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
       if (!canRedo(s.history)) return;
       set({ history: redoHistory(s.history), pending: null, lastCheck: 'none', victory: false });
       persist();
+      settleTutorial();
     },
 
     resetBoard() {
@@ -208,6 +221,7 @@ export const useGameStore = create<GameState & GameActions>()((set, get) => {
       if (!s.level) return;
       set({ history: createHistory({ positions: initialLayout(s.level.people), couples: [] }), pending: null, lastCheck: 'none', victory: false });
       persist();
+      settleTutorial();
     },
 
     check() {

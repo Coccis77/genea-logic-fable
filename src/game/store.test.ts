@@ -269,6 +269,46 @@ describe('tutorial and clues', () => {
     expect(s().tutorialStep).toBe(4);
   });
 
+  it('replaying a finished tutorial skips the steps the saved board already satisfies', () => {
+    buildFamily();
+    s().check();
+    expect(s().victory).toBe(true);
+    s().openLevel(level);
+    expect(s().tutorialStep).toBe(0);
+    s().selectTool('married');
+    expect(s().tutorialStep).toBe(3);
+  });
+
+  it('building with the wrong tool first does not strand the tutorial', () => {
+    s().selectTool('divorced');
+    s().clickPerson('a');
+    s().clickPerson('b');
+    s().selectTool('child');
+    s().clickCouple('c-a-b');
+    s().clickPerson('c');
+    expect(s().tutorialStep).toBe(0);
+    s().selectTool('married');
+    expect(s().tutorialStep).toBe(3);
+    s().clickCouple('c-a-b');
+    expect(board().couples[0].type).toBe('married');
+    expect(s().tutorialStep).toBe(3);
+  });
+
+  it('undo, redo and reset only ever move the tutorial forward', () => {
+    s().selectTool('divorced');
+    s().clickPerson('a');
+    s().clickPerson('b');
+    s().undo();
+    s().selectTool('married');
+    expect(s().tutorialStep).toBe(1);
+    s().redo();
+    expect(s().tutorialStep).toBe(2);
+    s().undo();
+    expect(s().tutorialStep).toBe(2);
+    s().resetBoard();
+    expect(s().tutorialStep).toBe(2);
+  });
+
   it('openClue tracks the open clue and emits', () => {
     const withClueStep: Level = { ...level, tutorial: [{ text: 'x', until: 'clueOpened:k1' }] };
     s().openLevel(withClueStep);
