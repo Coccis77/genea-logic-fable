@@ -23,6 +23,16 @@ describe('Board', () => {
     expect(screen.getByRole('button', { name: /Married/ })).toHaveAttribute('data-tutorial', 'tool:married');
   });
 
+  it('anchors both couple handles on the dot, not under the label', async () => {
+    useGameStore.getState().selectTool('married');
+    useGameStore.getState().clickPerson('a');
+    useGameStore.getState().clickPerson('b');
+    render(<Board />);
+    const dot = await screen.findByTestId('couple-c-a-b');
+    expect(dot.querySelectorAll('.couple-dot .react-flow__handle')).toHaveLength(2);
+    expect(dot.querySelectorAll('.couple-label .react-flow__handle')).toHaveLength(0);
+  });
+
   it('keeps the tutorial halo on a person after it becomes the pending selection', async () => {
     const user = userEvent.setup();
     useGameStore.getState().openLevel({ ...level, tutorial: [{ text: 'Click Ann', highlight: 'person:a', until: 'coupleCreated:a:b' }] });

@@ -39,7 +39,7 @@ export function createCouple(board: BoardState, a: string, b: string, type: Coup
   // Couple nodes use origin [0.5, 0], so x is the dot's centre: the midpoint of the two cards.
   const dot: Position = {
     x: (pa.x + pb.x) / 2 + PERSON_WIDTH / 2,
-    y: Math.max(pa.y, pb.y) + PERSON_HEIGHT + 60,
+    y: Math.max(pa.y, pb.y) + PERSON_HEIGHT + 40,
   };
   return {
     positions: { ...board.positions, [id]: dot },
