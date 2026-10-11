@@ -1,0 +1,81 @@
+:root, :root[data-theme='detective-board'] {
+  --font: 'Georgia', 'Times New Roman', serif;
+  --bg: #b8905e;
+  --bg-pattern: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  --surface: #fdf6e3;
+  --surface-border: #c9b48a;
+  --text: #2b2118;
+  --text-muted: #6b5a48;
+  --accent: #c0392b;
+  --link: #c0392b;
+  --link-child: #8e2b21;
+  --highlight: #f1c40f;
+  --panel: #efe4c9;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+:root[data-theme='old-archive'] {
+  --font: 'Georgia', serif;
+  --bg: #e8dcc0;
+  --bg-pattern: none;
+  --surface: #fbf5e6;
+  --surface-border: #8b6b43;
+  --text: #3b2a1a;
+  --text-muted: #7a6650;
+  --accent: #7b1e2b;
+  --link: #5a3a1e;
+  --link-child: #7b1e2b;
+  --highlight: #d4a017;
+  --panel: #f1e7cf;
+  --shadow: 0 1px 3px rgba(60, 40, 20, 0.3);
+}
+:root[data-theme='night-office'] {
+  --font: 'Helvetica Neue', Arial, sans-serif;
+  --bg: #1f2733;
+  --bg-pattern: none;
+  --surface: #2e3948;
+  --surface-border: #4a5868;
+  --text: #e8edf2;
+  --text-muted: #9aa8b8;
+  --accent: #f0b429;
+  --link: #f0b429;
+  --link-child: #d79a16;
+  --highlight: #f0b429;
+  --panel: #27303d;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+:root[data-theme='blueprint'] {
+  --font: 'Courier New', monospace;
+  --bg: #0b3d91;
+  --bg-pattern: linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+  --surface: transparent;
+  --surface-border: #ffffff;
+  --text: #ffffff;
+  --text-muted: #bcd3ff;
+  --accent: #19d3f5;
+  --link: #ffffff;
+  --link-child: #19d3f5;
+  --highlight: #19d3f5;
+  --panel: #0a3277;
+  --shadow: none;
+}
+:root[data-theme='noir'] {
+  --font: 'Helvetica Neue', Arial, sans-serif;
+  --bg: #121212;
+  --bg-pattern: none;
+  --surface: #f2f0ea;
+  --surface-border: #f2f0ea;
+  --text: #121212;
+  --text-muted: #555;
+  --accent: #b3001b;
+  --link: #cfcfcf;
+  --link-child: #b3001b;
+  --highlight: #b3001b;
+  --panel: #1c1c1c;
+  --shadow: none;
+}
+:root[data-theme='night-office'], :root[data-theme='blueprint'], :root[data-theme='noir'] {
+  --panel-text: #e8edf2;
+}
+:root, :root[data-theme='detective-board'], :root[data-theme='old-archive'] {
+  --panel-text: var(--text);
+}
